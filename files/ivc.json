@@ -1,0 +1,95 @@
+[
+{
+  "objectType" : "log",
+  "level" : "info",
+  "source" : "parse",
+  "value" : "kind2 v1.1.0-912-g75c8a6a0"
+}
+,
+{
+  "objectType" : "kind2Options",
+  "enabled" :
+  [
+    "bmc",
+    "ind",
+    "ind2",
+    "ic3",
+    "invgents",
+    "invgenos",
+    "invgenintos",
+    "invgenintos"
+  ],
+  "timeout" : 0.000000,
+  "bmcMax" : 0,
+  "compositional" : true,
+  "modular" : false
+}
+,
+{
+  "objectType" : "analysisStart",
+  "top" : "main",
+  "concrete" : [],
+  "abstract" :
+  [
+    "f"
+  ],
+  "assumptions" : []
+}
+,
+{
+  "objectType" : "property",
+  "name" : "P",
+  "line" : 24,
+  "column" : 4,
+  "source" : "PropAnnot",
+  "runtime" : {"unit" : "sec", "timeout" : false, "value" : 0.033},
+  "answer" : {"source" : "ic3", "value" : "valid"}
+}
+,
+{"objectType" : "analysisStop"}
+,
+{
+  "objectType" : "postAnalysisStart",
+  "name" : "ivc"
+}
+,
+{
+  "objectType": "ivc",
+  "size": 2,
+  "nodeSize": 12,
+  "property": "P",
+  "title": "core",
+  "category": "contracts ",
+  "enterNodes": true,
+  "impl": "UC",
+  "value": [
+    {
+      "objectType": "scope",
+      "name": "f",
+      "value": [
+        {
+          "objectType": "equation",
+          "cat": "Contract item",
+          "init": "(r >= u)",
+          "trans": "(r >= u)",
+          "positions": [
+            { "objectType": "position", "line": 5, "column": 4 }
+          ]
+        },
+        {
+          "objectType": "equation",
+          "cat": "Contract item",
+          "init": "(r >= v)",
+          "trans": "(r >= v)",
+          "positions": [
+            { "objectType": "position", "line": 6, "column": 4 }
+          ]
+        }
+      ]
+    },
+    { "objectType": "scope", "name": "main", "value": [] }
+  ],
+  "runtime": { "unit": "sec", "value": 0.11477184295654297 }
+},
+{"objectType" : "postAnalysisEnd"}
+]
