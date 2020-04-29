@@ -8,5 +8,5 @@ $ java -version
  $ git clone https://github.com/mudathirmahgoub/Kind2JavaClient
  $ cd Kind2JavaClient     
  $ ./gradlew build 
- $ java -jar build/libs/Kind2JavaClient.jar files/a1.json
+ $ java -jar build/libs/Kind2JavaClientMain.jar files/a1.json
 ```
