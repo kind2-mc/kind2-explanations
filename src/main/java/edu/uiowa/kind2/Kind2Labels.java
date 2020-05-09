@@ -36,4 +36,6 @@ public class Kind2Labels
     public static final String k = "k";
     public static final String level = "level";
     public static final String size = "size";
+    public static final String numerator = "num";
+    public static final String denominator = "den";
 }

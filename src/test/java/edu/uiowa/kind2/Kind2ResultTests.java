@@ -9,6 +9,7 @@ package edu.uiowa.kind2;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.math.RoundingMode;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collections;
@@ -164,7 +165,7 @@ public class Kind2ResultTests
     @Test
     void suggestion5()
     {
-        String json = "[{'objectType': 'kind2Options', 'enabled': ['bmc', 'ind', 'ind2', 'ic3', 'invgents', 'invgenos', 'invgenintos', 'invgenintos'], 'timeout': 0.0, 'bmcMax': 0, 'compositional': True, 'modular': True}, {'objectType': 'log', 'level': 'info', 'source': 'parse', 'value': 'kind2 v1.1.0-482-gd69f383a'}, {'objectType': 'analysisStart', 'top': 'abs', 'concrete': [], 'abstract': [], 'assumptions': []}, {'objectType': 'property', 'name': 'Absolute', 'line': 6, 'column': 3, 'source': 'PropAnnot', 'runtime': {'unit': 'sec', 'timeout': False, 'value': 0.021}, 'k': 0, 'answer': {'source': 'ic3', 'value': 'falsifiable'}, 'counterExample': [{'blockType': 'node', 'name': 'abs', 'streams': [{'name': 'x', 'type': 'real', 'class': 'input', 'instantValues': [[0, 4]]}, {'name': 'y', 'type': 'real', 'class': 'output', 'instantValues': [[0, -4]]}, {'name': 'Absolute', 'type': 'bool', 'class': 'local', 'instantValues': [[0, False]]}]}]}, {'objectType': 'analysisStop'}]";
+        String json = "[{'objectType': 'kind2Options', 'enabled': ['bmc', 'ind', 'ind2', 'ic3', 'invgents', 'invgenos', 'invgenintos', 'invgenintos'], 'timeout': 0.0, 'bmcMax': 0, 'compositional': True, 'modular': True}, {'objectType': 'log', 'level': 'info', 'source': 'parse', 'value': 'kind2 v1.1.0-482-gd69f383a'}, {'objectType': 'analysisStart', 'top': 'abs', 'concrete': [], 'abstract': [], 'assumptions': []}, {'objectType': 'property', 'name': 'Absolute', 'line': 6, 'column': 3, 'source': 'PropAnnot', 'runtime': {'unit': 'sec', 'timeout': False, 'value': 0.021}, 'k': 0, 'answer': {'source': 'ic3', 'value': 'falsifiable'}, 'counterExample': [{'blockType': 'node', 'name': 'abs', 'streams': [{'name': 'x', 'type': 'real', 'class': 'input', 'instantValues': [[0, 4.05]]}, {'name': 'y', 'type': 'real', 'class': 'output', 'instantValues': [[0, -4]]}, {'name': 'Absolute', 'type': 'bool', 'class': 'local', 'instantValues': [[0, False]]}]}]}, {'objectType': 'analysisStop'}]";
 
         Kind2Result result = Kind2Result.analyzeJsonResult(json);
         List<Kind2Suggestion> absolute = result.getNodeResult("abs").getSuggestions();
@@ -474,5 +475,17 @@ public class Kind2ResultTests
         Kind2Result result = Kind2Result.analyzeJsonResult(json);
         assertNotNull(result.getRoot());
         // System.out.println(result);
+    }
+
+    @Test
+    void real() throws IOException
+    {
+        String json = new String(Files.readAllBytes(Paths.get("files/real.json")));
+        Kind2Result.setPrintingCounterExamplesEnabled(true);
+        Kind2Result.setRealPrecision(2);
+        Kind2Result.setRealRoundingMode(RoundingMode.HALF_UP);
+        Kind2Result result = Kind2Result.analyzeJsonResult(json);
+        assertNotNull(result.getRoot());
+        System.out.println(result);
     }
 }

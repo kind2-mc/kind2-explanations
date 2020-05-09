@@ -7,6 +7,7 @@
 package edu.uiowa.kind2;
 
 import java.io.IOException;
+import java.math.RoundingMode;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -20,6 +21,8 @@ public class Main
         Kind2Result.setPrintingLineNumbersEnabled(true);
         Kind2Result.setOpeningSymbols("{{");
         Kind2Result.setClosingSymbols("}}");
+        Kind2Result.setRealPrecision(2);
+        Kind2Result.setRealRoundingMode(RoundingMode.HALF_UP);
 
         if (args.length > 0)
         {

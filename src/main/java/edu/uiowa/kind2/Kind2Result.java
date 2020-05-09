@@ -11,6 +11,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
+import java.math.RoundingMode;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -19,6 +20,9 @@ public class Kind2Result
     private static boolean printingCounterExamplesEnabled = false;
     private static boolean printingUnknownCounterExamplesEnabled = false;
     private static boolean printingLineNumbersEnabled = false;
+    private static int realPrecision = 2;
+    // https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/math/RoundingMode.html
+    private static RoundingMode realRoundingMode = RoundingMode.HALF_UP;
     private static String openingSymbols = "{{";
     private static String closingSymbols = "}}";
     private static boolean printingOriginalNameEnabled = false;
@@ -670,6 +674,26 @@ public class Kind2Result
     public static void setClosingSymbols(String symbols)
     {
         Kind2Result.closingSymbols = symbols;
+    }
+
+    public static int getRealPrecision()
+    {
+        return realPrecision;
+    }
+
+    public static void setRealPrecision(int realPrecision)
+    {
+        Kind2Result.realPrecision = realPrecision;
+    }
+
+    public static RoundingMode getRealRoundingMode()
+    {
+        return realRoundingMode;
+    }
+
+    public static void setRealRoundingMode(RoundingMode realRoundingMode)
+    {
+        Kind2Result.realRoundingMode = realRoundingMode;
     }
 
     public static String getOpeningSymbols()
