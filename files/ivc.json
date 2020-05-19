@@ -1,15 +1,9 @@
 [
   {
     "objectType": "log",
-    "level": "warn",
-    "source": "parse",
-    "value": "IVC post-analysis enabled: disabling ind_compress"
-  },
-  {
-    "objectType": "log",
     "level": "info",
     "source": "parse",
-    "value": "kind2 v1.1.0-964-g8e235c40"
+    "value": "kind2 v1.1.0-966-g16aac0ed"
   },
   {
     "objectType": "kind2Options",
@@ -42,28 +36,17 @@
     }
   },
   {
+    "objectType": "log",
+    "level": "warn",
+    "source": "parse",
+    "value": "IVC post-analysis enabled: disabling ind_compress"
+  },
+  {
     "objectType": "analysisStart",
     "top": "f",
     "concrete": [],
     "abstract": [],
     "assumptions": []
-  },
-  {
-    "objectType": "property",
-    "name": "fSpec[l22c12].guarantee[l12c4][1]",
-    "scope": "f",
-    "line": 12,
-    "column": 4,
-    "source": "Guarantee",
-    "runtime": {
-      "unit": "sec",
-      "timeout": false,
-      "value": 0.043
-    },
-    "answer": {
-      "source": "ind",
-      "value": "valid"
-    }
   },
   {
     "objectType": "property",
@@ -75,7 +58,7 @@
     "runtime": {
       "unit": "sec",
       "timeout": false,
-      "value": 0.043
+      "value": 0.125
     },
     "answer": {
       "source": "ind",
@@ -92,7 +75,7 @@
     "runtime": {
       "unit": "sec",
       "timeout": false,
-      "value": 0.043
+      "value": 0.125
     },
     "answer": {
       "source": "ind",
@@ -109,7 +92,7 @@
     "runtime": {
       "unit": "sec",
       "timeout": false,
-      "value": 0.043
+      "value": 0.125
     },
     "answer": {
       "source": "ind",
@@ -126,7 +109,24 @@
     "runtime": {
       "unit": "sec",
       "timeout": false,
-      "value": 0.043
+      "value": 0.125
+    },
+    "answer": {
+      "source": "ind",
+      "value": "valid"
+    }
+  },
+  {
+    "objectType": "property",
+    "name": "fSpec[l22c12].guarantee[l12c4][1]",
+    "scope": "f",
+    "line": 12,
+    "column": 4,
+    "source": "Guarantee",
+    "runtime": {
+      "unit": "sec",
+      "timeout": false,
+      "value": 0.136
     },
     "answer": {
       "source": "ind",
@@ -146,44 +146,44 @@
     "size": 6,
     "runtime": {
       "unit": "sec",
-      "value": 3.4567208290100098
+      "value": 3.447842836380005
     },
     "nodes": [
       {
         "name": "f",
         "elements": [
           {
-            "category": "equation",
+            "category": "Equation",
             "name": "r",
             "line": 33,
             "column": 8
           },
           {
-            "category": "guarantee",
+            "category": "Guarantee",
             "name": "fSpec[l22c12].guarantee[l12c4][1]",
             "line": 12,
             "column": 4
           },
           {
-            "category": "guarantee",
+            "category": "Guarantee",
             "name": "fSpec[l22c12].guarantee[l13c4][2]",
             "line": 13,
             "column": 4
           },
           {
-            "category": "guarantee",
+            "category": "Guarantee",
             "name": "fSpec[l22c12].TheGoodOne[3]",
             "line": 15,
             "column": 4
           },
           {
-            "category": "guarantee",
+            "category": "Guarantee",
             "name": "fSpec[l22c12].guarantee[l16c4][4]",
             "line": 16,
             "column": 4
           },
           {
-            "category": "guarantee",
+            "category": "Guarantee",
             "name": "fSpec[l22c12].guarantee[l17c4][5]",
             "line": 17,
             "column": 4
@@ -198,7 +198,7 @@
     "size": 0,
     "runtime": {
       "unit": "sec",
-      "value": 3.4567208290100098
+      "value": 3.447842836380005
     },
     "nodes": []
   },
@@ -208,44 +208,44 @@
     "size": 6,
     "runtime": {
       "unit": "sec",
-      "value": 0.3331301212310791
+      "value": 0.37660717964172363
     },
     "nodes": [
       {
         "name": "f",
         "elements": [
           {
-            "category": "equation",
+            "category": "Equation",
             "name": "r",
             "line": 33,
             "column": 8
           },
           {
-            "category": "guarantee",
+            "category": "Guarantee",
             "name": "fSpec[l22c12].guarantee[l12c4][1]",
             "line": 12,
             "column": 4
           },
           {
-            "category": "guarantee",
+            "category": "Guarantee",
             "name": "fSpec[l22c12].guarantee[l13c4][2]",
             "line": 13,
             "column": 4
           },
           {
-            "category": "guarantee",
+            "category": "Guarantee",
             "name": "fSpec[l22c12].TheGoodOne[3]",
             "line": 15,
             "column": 4
           },
           {
-            "category": "guarantee",
+            "category": "Guarantee",
             "name": "fSpec[l22c12].guarantee[l16c4][4]",
             "line": 16,
             "column": 4
           },
           {
-            "category": "guarantee",
+            "category": "Guarantee",
             "name": "fSpec[l22c12].guarantee[l17c4][5]",
             "line": 17,
             "column": 4
@@ -260,7 +260,7 @@
     "size": 0,
     "runtime": {
       "unit": "sec",
-      "value": 0.3331301212310791
+      "value": 0.37660717964172363
     },
     "nodes": []
   },
@@ -283,23 +283,6 @@
   },
   {
     "objectType": "property",
-    "name": "f[l42c8].assume[l11c4][1]",
-    "scope": "f",
-    "line": 11,
-    "column": 4,
-    "source": "Assumption",
-    "runtime": {
-      "unit": "sec",
-      "timeout": false,
-      "value": 0.060
-    },
-    "answer": {
-      "source": "ind",
-      "value": "valid"
-    }
-  },
-  {
-    "objectType": "property",
     "name": "f[l41c8].assume[l11c4][1]",
     "scope": "f",
     "line": 11,
@@ -308,7 +291,24 @@
     "runtime": {
       "unit": "sec",
       "timeout": false,
-      "value": 0.060
+      "value": 0.080
+    },
+    "answer": {
+      "source": "ind",
+      "value": "valid"
+    }
+  },
+  {
+    "objectType": "property",
+    "name": "f[l42c8].assume[l11c4][1]",
+    "scope": "f",
+    "line": 11,
+    "column": 4,
+    "source": "Assumption",
+    "runtime": {
+      "unit": "sec",
+      "timeout": false,
+      "value": 0.080
     },
     "answer": {
       "source": "ind",
@@ -324,7 +324,7 @@
     "runtime": {
       "unit": "sec",
       "timeout": false,
-      "value": 0.091
+      "value": 0.111
     },
     "answer": {
       "source": "invgenos",
@@ -344,38 +344,38 @@
     "size": 5,
     "runtime": {
       "unit": "sec",
-      "value": 3.702666997909546
+      "value": 4.079503774642944
     },
     "nodes": [
       {
         "name": "main",
         "elements": [
           {
-            "category": "equation",
+            "category": "Equation",
             "name": "z",
             "line": 43,
             "column": 8
           },
           {
-            "category": "equation",
+            "category": "Equation",
             "name": "P",
             "line": 48,
             "column": 8
           },
           {
-            "category": "assertion",
+            "category": "Assertion",
             "name": "assertion[l40c4]",
             "line": 40,
             "column": 4
           },
           {
-            "category": "node call",
+            "category": "NodeCall",
             "name": "f",
             "line": 41,
             "column": 8
           },
           {
-            "category": "node call",
+            "category": "NodeCall",
             "name": "f",
             "line": 42,
             "column": 8
@@ -390,38 +390,38 @@
     "size": 5,
     "runtime": {
       "unit": "sec",
-      "value": 3.702666997909546
+      "value": 4.079503774642944
     },
     "nodes": [
       {
         "name": "f",
         "elements": [
           {
-            "category": "guarantee",
+            "category": "Guarantee",
             "name": "fSpec[l22c12].guarantee[l12c4][1]",
             "line": 12,
             "column": 4
           },
           {
-            "category": "guarantee",
+            "category": "Guarantee",
             "name": "fSpec[l22c12].guarantee[l13c4][2]",
             "line": 13,
             "column": 4
           },
           {
-            "category": "guarantee",
+            "category": "Guarantee",
             "name": "fSpec[l22c12].TheGoodOne[3]",
             "line": 15,
             "column": 4
           },
           {
-            "category": "guarantee",
+            "category": "Guarantee",
             "name": "fSpec[l22c12].guarantee[l16c4][4]",
             "line": 16,
             "column": 4
           },
           {
-            "category": "guarantee",
+            "category": "Guarantee",
             "name": "fSpec[l22c12].guarantee[l17c4][5]",
             "line": 17,
             "column": 4
@@ -436,20 +436,20 @@
     "size": 7,
     "runtime": {
       "unit": "sec",
-      "value": 2.2076590061187744
+      "value": 2.201712131500244
     },
     "nodes": [
       {
         "name": "f",
         "elements": [
           {
-            "category": "guarantee",
+            "category": "Guarantee",
             "name": "fSpec[l22c12].guarantee[l16c4][4]",
             "line": 16,
             "column": 4
           },
           {
-            "category": "guarantee",
+            "category": "Guarantee",
             "name": "fSpec[l22c12].guarantee[l17c4][5]",
             "line": 17,
             "column": 4
@@ -460,31 +460,31 @@
         "name": "main",
         "elements": [
           {
-            "category": "equation",
+            "category": "Equation",
             "name": "z",
             "line": 43,
             "column": 8
           },
           {
-            "category": "equation",
+            "category": "Equation",
             "name": "P",
             "line": 48,
             "column": 8
           },
           {
-            "category": "assertion",
+            "category": "Assertion",
             "name": "assertion[l40c4]",
             "line": 40,
             "column": 4
           },
           {
-            "category": "node call",
+            "category": "NodeCall",
             "name": "f",
             "line": 41,
             "column": 8
           },
           {
-            "category": "node call",
+            "category": "NodeCall",
             "name": "f",
             "line": 42,
             "column": 8
@@ -499,26 +499,26 @@
     "size": 3,
     "runtime": {
       "unit": "sec",
-      "value": 2.2076590061187744
+      "value": 2.201712131500244
     },
     "nodes": [
       {
         "name": "f",
         "elements": [
           {
-            "category": "guarantee",
+            "category": "Guarantee",
             "name": "fSpec[l22c12].guarantee[l12c4][1]",
             "line": 12,
             "column": 4
           },
           {
-            "category": "guarantee",
+            "category": "Guarantee",
             "name": "fSpec[l22c12].guarantee[l13c4][2]",
             "line": 13,
             "column": 4
           },
           {
-            "category": "guarantee",
+            "category": "Guarantee",
             "name": "fSpec[l22c12].TheGoodOne[3]",
             "line": 15,
             "column": 4
@@ -533,14 +533,14 @@
     "size": 6,
     "runtime": {
       "unit": "sec",
-      "value": 1.0944390296936035
+      "value": 1.17085599899292
     },
     "nodes": [
       {
         "name": "f",
         "elements": [
           {
-            "category": "guarantee",
+            "category": "Guarantee",
             "name": "fSpec[l22c12].TheGoodOne[3]",
             "line": 15,
             "column": 4
@@ -551,31 +551,31 @@
         "name": "main",
         "elements": [
           {
-            "category": "equation",
+            "category": "Equation",
             "name": "z",
             "line": 43,
             "column": 8
           },
           {
-            "category": "equation",
+            "category": "Equation",
             "name": "P",
             "line": 48,
             "column": 8
           },
           {
-            "category": "assertion",
+            "category": "Assertion",
             "name": "assertion[l40c4]",
             "line": 40,
             "column": 4
           },
           {
-            "category": "node call",
+            "category": "NodeCall",
             "name": "f",
             "line": 41,
             "column": 8
           },
           {
-            "category": "node call",
+            "category": "NodeCall",
             "name": "f",
             "line": 42,
             "column": 8
@@ -590,32 +590,32 @@
     "size": 4,
     "runtime": {
       "unit": "sec",
-      "value": 1.0944390296936035
+      "value": 1.17085599899292
     },
     "nodes": [
       {
         "name": "f",
         "elements": [
           {
-            "category": "guarantee",
+            "category": "Guarantee",
             "name": "fSpec[l22c12].guarantee[l12c4][1]",
             "line": 12,
             "column": 4
           },
           {
-            "category": "guarantee",
+            "category": "Guarantee",
             "name": "fSpec[l22c12].guarantee[l13c4][2]",
             "line": 13,
             "column": 4
           },
           {
-            "category": "guarantee",
+            "category": "Guarantee",
             "name": "fSpec[l22c12].guarantee[l16c4][4]",
             "line": 16,
             "column": 4
           },
           {
-            "category": "guarantee",
+            "category": "Guarantee",
             "name": "fSpec[l22c12].guarantee[l17c4][5]",
             "line": 17,
             "column": 4

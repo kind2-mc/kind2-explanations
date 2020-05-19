@@ -490,7 +490,7 @@ public class Kind2ResultTests
         Kind2ModelElementSet must = postAnalysis.getModelElements().get(0);
         assertEquals(6, must.getSize());
         assertEquals("sec", must.getRuntimeUnit());
-        assertEquals(3.4567208290100098, must.getRuntimeValue());
+        assertEquals(3.447842836380005, must.getRuntimeValue());
         assertEquals(1, must.getNodes().size());
         assertEquals(1, must.getNodes().size());
 
@@ -502,7 +502,7 @@ public class Kind2ResultTests
         assertEquals("r", r.getName());
         assertEquals("r", r.getJsonName());
         assertEquals("f.r", r.getQualifiedName());
-        assertEquals("equation", r.getCategory());
+        assertEquals("Equation", r.getCategory());
         assertEquals(33, r.getLine());
         assertEquals(8, r.getColumn());
         assertNull(r.getKind2Property());
@@ -511,7 +511,7 @@ public class Kind2ResultTests
         assertEquals("guarantee", guarantee1.getName());
         assertEquals("fSpec[l22c12].guarantee[l12c4][1]", guarantee1.getJsonName());
         assertEquals("f.guarantee", guarantee1.getQualifiedName());
-        assertEquals("guarantee", guarantee1.getCategory());
+        assertEquals("Guarantee", guarantee1.getCategory());
         assertEquals(12, guarantee1.getLine());
         assertEquals(4, guarantee1.getColumn());
         assertNotNull(guarantee1.getKind2Property());
@@ -540,7 +540,7 @@ public class Kind2ResultTests
 
         Kind2Element assertion = node.getElements().get(2);
 
-        assertEquals("assertion", assertion.getCategory());
+        assertEquals("Assertion", assertion.getCategory());
         assertEquals("assertion[l40c4]", assertion.getJsonName());
         assertEquals(40, assertion.getLine());
         assertEquals(4, assertion.getColumn());
