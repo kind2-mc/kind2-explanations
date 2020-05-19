@@ -8,5 +8,5 @@ $ java -version
  $ git clone https://github.com/kind2-mc/kind2-explanations
  $ cd Kind2JavaClient     
  $ ./gradlew build 
- $ java -jar build/libs/Kind2JavaClientMain.jar files/a1.json
+ $ java -jar build/libs/kind2-explanations-all.jar files/a1.json
 ```

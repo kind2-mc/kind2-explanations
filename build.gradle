@@ -1,21 +1,11 @@
 plugins {
     id 'application'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
 }
 
 apply plugin: 'java' // adds 'test' task
 
 mainClassName = 'edu.uiowa.kind2.Main'
-
-task kind2JavaClientMain(type: Jar) {
-    manifest {
-        attributes 'Main-Class': 'edu.uiowa.kind2.Main'
-    }
-    archivesBaseName = 'kind2-explanationsMain'
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-    with jar
-}
-
-compileJava.finalizedBy kind2JavaClientMain
 
 repositories {
     mavenCentral()
@@ -32,7 +22,6 @@ compileJava {
     sourceCompatibility = JavaVersion.current()
     targetCompatibility = JavaVersion.current()
 }
-
 
 test {
     // enable JUnit Platform (a.k.a. JUnit 5) support
