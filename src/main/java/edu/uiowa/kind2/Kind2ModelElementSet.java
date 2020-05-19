@@ -28,7 +28,7 @@ public class Kind2ModelElementSet
         json = new GsonBuilder().setPrettyPrinting().create().toJson(jsonElement);
         classField = jsonObject.get(Kind2Labels.classField).getAsString();
         size = jsonObject.get(Kind2Labels.size).getAsInt();
-        JsonObject runtime = jsonElement.getAsJsonObject();
+        JsonObject runtime = jsonObject.get(Kind2Labels.runtime).getAsJsonObject();
         runtimeUnit = runtime.get(Kind2Labels.unit).getAsString();
         runtimeValue = runtime.get(Kind2Labels.value).getAsDouble();
         nodes = new ArrayList<>();

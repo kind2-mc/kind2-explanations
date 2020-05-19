@@ -6,21 +6,19 @@
 package edu.uiowa.kind2;
 
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class Kind2PostAnalysis
 {
     private final String json;
     private final JsonElement jsonElement;
     private final String name;
-    private final Map<String, Kind2ModelElementSet> modelElementSetMap;
+    private final List<Kind2ModelElementSet> modelElements;
 
     private final Kind2Analysis analysis;
 
@@ -31,17 +29,12 @@ public class Kind2PostAnalysis
         json = new GsonBuilder().setPrettyPrinting().create().toJson(jsonElement);
 
         this.name = jsonElement.getAsJsonObject().get(Kind2Labels.name).getAsString();
-        modelElementSetMap = new HashMap<>();
+        modelElements = new ArrayList<>();
     }
 
     public void addModelElementSet(Kind2ModelElementSet modelElementSet)
     {
-        // add the modelElementSet
-        if (modelElementSetMap.containsKey(modelElementSet.getClassField()))
-        {
-            throw new RuntimeException(modelElementSet.getClassField() + "is already added");
-        }
-        modelElementSetMap.put(modelElementSet.getClassField(), modelElementSet);
+        modelElements.add(modelElementSet);
     }
 
     public String getJson()
@@ -59,8 +52,8 @@ public class Kind2PostAnalysis
         return analysis;
     }
 
-    public Map<String, Kind2ModelElementSet> getModelElementSetMap()
+    public List<Kind2ModelElementSet> getModelElements()
     {
-        return modelElementSetMap;
+        return modelElements;
     }
 }

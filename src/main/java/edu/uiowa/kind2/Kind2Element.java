@@ -4,6 +4,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import java.util.Optional;
+
 public class Kind2Element
 {
     private final String json;
@@ -34,7 +36,8 @@ public class Kind2Element
         else
         {
             // get the corresponding property
-            kind2Property = getKind2Analysis().getProperty(jsonName);
+            Optional<Kind2Property> property = getKind2Analysis().getProperty(jsonName);
+            this.kind2Property = property.isPresent()? property.get(): null;
             name = jsonName.replaceAll("\\[.*?\\]", "").replaceFirst(".*?\\.", "");
         }
 

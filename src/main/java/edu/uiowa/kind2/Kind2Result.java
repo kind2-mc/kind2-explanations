@@ -129,6 +129,8 @@ public class Kind2Result
         Kind2Result kind2Result = null;
         JsonArray resultArray = new JsonParser().parse(json).getAsJsonArray();
         Kind2Analysis kind2Analysis = null;
+        // for post analysis
+        Kind2Analysis previousAnalysis = null;
 
         for (JsonElement jsonElement : resultArray)
         {
@@ -159,6 +161,7 @@ public class Kind2Result
                 {
                     // 	finish the analysis
                     kind2Result.put(kind2Analysis.getNodeName(), kind2Analysis);
+                    previousAnalysis = kind2Analysis;
                     kind2Analysis = null;
                 }
                 else
@@ -180,6 +183,45 @@ public class Kind2Result
                 }
             }
 
+            if(kind2Object == Kind2Object.postAnalysisStart)
+            {
+                if (previousAnalysis != null)
+                {
+                    Kind2PostAnalysis postAnalysis = new Kind2PostAnalysis(previousAnalysis, jsonElement);
+                    previousAnalysis.setPostAnalysis(postAnalysis);
+                }
+                else
+                {
+                    throw new RuntimeException("Can not parse kind2 json output");
+                }
+            }
+
+            if (kind2Object == Kind2Object.postAnalysisEnd)
+            {
+                if (previousAnalysis != null && previousAnalysis.getPostAnalysis() != null)
+                {
+                    // 	finish the post analysis
+                    previousAnalysis = null;
+                }
+                else
+                {
+                    throw new RuntimeException("Failed to analyze kind2 json output");
+                }
+            }
+
+            if (kind2Object == Kind2Object.modelElementSet)
+            {
+                if (previousAnalysis != null && previousAnalysis.getPostAnalysis() != null)
+                {
+                    Kind2PostAnalysis postAnalysis = previousAnalysis.getPostAnalysis();
+                    Kind2ModelElementSet elementSet = new Kind2ModelElementSet(postAnalysis, jsonElement);
+                    postAnalysis.addModelElementSet(elementSet);
+                }
+                else
+                {
+                    throw new RuntimeException("Can not parse kind2 json output");
+                }
+            }
         }
 
         // build the node tree
