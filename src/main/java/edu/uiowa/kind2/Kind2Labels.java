@@ -38,4 +38,13 @@ public class Kind2Labels
     public static final String size = "size";
     public static final String numerator = "num";
     public static final String denominator = "den";
+    public static final String must = "must";
+    public static final String mustComplement = "must complement";
+    public static final String ivc = "ivc";
+    public static final String ivcComplement = "ivc complement";
+    public static final String unit = "unit";
+    public static final String nodes = "nodes";
+    public static final String elements = "elements";
+    public static final String category = "category";
+    public static final String equation = "equation";
 }

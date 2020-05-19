@@ -10,7 +10,7 @@ import com.google.gson.JsonElement;
 
 public class Kind2CounterExample
 {
-    private final Kind2Node mainNode;
+    private final Kind2SubNode mainNode;
     private final String json;
     private final Kind2Property property;
 
@@ -18,10 +18,10 @@ public class Kind2CounterExample
     {
         this.property = property;
         json = new GsonBuilder().setPrettyPrinting().create().toJson(jsonElement);
-        mainNode = new Kind2Node(this, jsonElement);
+        mainNode = new Kind2SubNode(this, jsonElement);
     }
 
-    public Kind2Node getMainNode()
+    public Kind2SubNode getMainNode()
     {
         return mainNode;
     }

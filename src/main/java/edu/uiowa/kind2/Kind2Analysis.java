@@ -187,4 +187,11 @@ public class Kind2Analysis
     {
         return propertiesMap;
     }
+
+    public Kind2Property getProperty(String jsonName)
+    {
+        Kind2Property property = this.getProperties()
+                .stream().filter(p -> p.getJsonName().equals(jsonName)).findFirst().get();
+        return property;
+    }
 }

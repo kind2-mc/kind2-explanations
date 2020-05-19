@@ -15,7 +15,7 @@ public enum Kind2Object
     analysisStop("analysisStop"),
     postAnalysisStart("postAnalysisStart"),
     postAnalysisEnd("postAnalysisEnd"),
-    ivc("ivc");
+    modelElementSet("modelElementSet");
 
     private final String value;
 
@@ -40,8 +40,8 @@ public enum Kind2Object
                 return analysisStop;
             case "postAnalysisStart":
                 return postAnalysisStart;
-            case "ivc":
-                return ivc;
+            case "modelElementSet":
+                return modelElementSet;
             case "postAnalysisEnd":
                 return postAnalysisEnd;
             default:

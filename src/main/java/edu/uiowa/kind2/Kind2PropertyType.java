@@ -25,14 +25,19 @@ public enum Kind2PropertyType
         switch (propertyType)
         {
             case "Assumption":
+            case "assumption":
                 return assumption;
             case "Guarantee":
+            case "guarantee":
                 return guarantee;
             case "Ensure":
+            case "ensure":
                 return ensure;
             case "PropAnnot":
+            case "propAnnot":
                 return annotation;
             case "OneModeActive":
+            case "oneModeActive":
                 return oneModeActive;
             default:
                 throw new UnsupportedOperationException("Property type " + propertyType + " is not defined");
