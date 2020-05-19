@@ -22,11 +22,11 @@ public class Kind2Stream
     private final String streamClass;
     private final List<Kind2StepValue> stepValues;
     private final String json;
-    private final Kind2Node kind2Node;
+    private final Kind2SubNode kind2SubNode;
 
-    public Kind2Stream(Kind2Node kind2Node, JsonElement jsonElement)
+    public Kind2Stream(Kind2SubNode kind2SubNode, JsonElement jsonElement)
     {
-        this.kind2Node = kind2Node;
+        this.kind2SubNode = kind2SubNode;
         json = new GsonBuilder().setPrettyPrinting().create().toJson(jsonElement);
         name = jsonElement.getAsJsonObject().get(Kind2Labels.name).getAsString();
         String typeString = jsonElement.getAsJsonObject().get(Kind2Labels.type).getAsString();
@@ -51,7 +51,7 @@ public class Kind2Stream
 
     public Kind2Result getKind2Result()
     {
-        return kind2Node.getKind2Result();
+        return kind2SubNode.getKind2Result();
     }
 
     public String getName()
@@ -61,7 +61,7 @@ public class Kind2Stream
 
     public String getOriginalName()
     {
-        return kind2Node.getKind2Result().getOriginalName(name);
+        return kind2SubNode.getKind2Result().getOriginalName(name);
     }
 
     public Kind2Type getKind2Type()

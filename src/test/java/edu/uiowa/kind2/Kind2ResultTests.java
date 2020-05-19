@@ -14,6 +14,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -473,8 +474,76 @@ public class Kind2ResultTests
     {
         String json = new String(Files.readAllBytes(Paths.get("files/ivc.json")));
         Kind2Result result = Kind2Result.analyzeJsonResult(json);
-        assertNotNull(result.getRoot());
-        // System.out.println(result);
+
+        Kind2NodeResult f = result.getNodeResult("f");
+
+        assertEquals(1, f.getAnalyses().size());
+
+        Kind2Analysis analysis = f.getAnalyses().get(0);
+        assertNotNull(analysis.getPostAnalysis());
+
+        Kind2PostAnalysis postAnalysis = analysis.getPostAnalysis();
+
+        assertEquals("ivc", postAnalysis.getName());
+        assertEquals(4, postAnalysis.getModelElements().size());
+
+        Kind2ModelElementSet must = postAnalysis.getModelElements().get(0);
+        assertEquals(6, must.getSize());
+        assertEquals("sec", must.getRuntimeUnit());
+        assertEquals(3.4567208290100098, must.getRuntimeValue());
+        assertEquals(1, must.getNodes().size());
+        assertEquals(1, must.getNodes().size());
+
+        Kind2Node node = must.getNodes().get(0);
+        assertEquals("f", node.getName());
+        assertEquals(6, node.getElements().size());
+
+        Kind2Element r = node.getElements().get(0);
+        assertEquals("r", r.getName());
+        assertEquals("r", r.getJsonName());
+        assertEquals("f.r", r.getQualifiedName());
+        assertEquals("equation", r.getCategory());
+        assertEquals(33, r.getLine());
+        assertEquals(8, r.getColumn());
+        assertNull(r.getKind2Property());
+
+        Kind2Element guarantee1 = node.getElements().get(1);
+        assertEquals("guarantee", guarantee1.getName());
+        assertEquals("fSpec[l22c12].guarantee[l12c4][1]", guarantee1.getJsonName());
+        assertEquals("f.guarantee", guarantee1.getQualifiedName());
+        assertEquals("guarantee", guarantee1.getCategory());
+        assertEquals(12, guarantee1.getLine());
+        assertEquals(4, guarantee1.getColumn());
+        assertNotNull(guarantee1.getKind2Property());
+        Kind2Property guarantee1Property = guarantee1.getKind2Property();
+        assertEquals(Kind2Answer.valid, guarantee1Property.getAnswer());
+        assertEquals("f", guarantee1Property.getScope());
+        assertEquals("fSpec[l22c12].guarantee[l12c4][1]", guarantee1Property.getJsonName());
+
+
+        Kind2NodeResult main = result.getNodeResult("main");
+
+        assertEquals(1, main.getAnalyses().size());
+
+        analysis = main.getAnalyses().get(0);
+        assertNotNull(analysis.getPostAnalysis());
+
+        postAnalysis = analysis.getPostAnalysis();
+
+        assertEquals("ivc", postAnalysis.getName());
+        assertEquals(6, postAnalysis.getModelElements().size());
+
+        must = postAnalysis.getModelElements().get(0);
+        assertEquals(1, must.getNodes().size());
+        node = must.getNodes().get(0);
+        assertEquals(5, node.getElements().size());
+
+        Kind2Element assertion = node.getElements().get(2);
+
+        assertEquals("assertion", assertion.getCategory());
+        assertEquals("assertion[l40c4]", assertion.getJsonName());
+        assertEquals(40, assertion.getLine());
+        assertEquals(4, assertion.getColumn());
     }
 
     @Test

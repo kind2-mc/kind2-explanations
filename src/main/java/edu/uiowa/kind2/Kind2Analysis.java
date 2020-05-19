@@ -9,10 +9,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Kind2Analysis
@@ -30,6 +27,8 @@ public class Kind2Analysis
     private boolean isModeAnalysis = false;
 
     private Kind2NodeResult nodeResult = null;
+
+    private Kind2PostAnalysis postAnalysis;
 
     public Kind2Analysis(JsonElement jsonElement)
     {
@@ -186,5 +185,28 @@ public class Kind2Analysis
     public Map<String, List<Kind2Property>> getPropertiesMap()
     {
         return propertiesMap;
+    }
+
+    public Optional<Kind2Property> getProperty(String jsonName)
+    {
+        return getProperties()
+                .stream().filter(p -> p.getJsonName().equals(jsonName)).findFirst();
+    }
+
+    public Kind2PostAnalysis getPostAnalysis()
+    {
+        return postAnalysis;
+    }
+
+    public void setPostAnalysis(Kind2PostAnalysis postAnalysis)
+    {
+        if(this.postAnalysis == null)
+        {
+            this.postAnalysis = postAnalysis;
+        }
+        else
+        {
+            throw new RuntimeException(String.format("Post Analysis is already set for '%1$s'.", nodeName));
+        }
     }
 }
