@@ -48,4 +48,5 @@ public class Kind2Labels
     public static final String elements = "elements";
     public static final String category = "category";
     public static final String equation = "Equation";
+    public static final String nodeCall = "NodeCall";
 }
