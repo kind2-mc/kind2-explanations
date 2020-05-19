@@ -10,7 +10,7 @@ task kind2JavaClientMain(type: Jar) {
     manifest {
         attributes 'Main-Class': 'edu.uiowa.kind2.Main'
     }
-    archivesBaseName = 'Kind2JavaClientMain'
+    archivesBaseName = 'kind2-explanationsMain'
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
     with jar
 }
