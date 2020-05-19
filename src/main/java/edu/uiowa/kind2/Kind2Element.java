@@ -43,7 +43,7 @@ public class Kind2Element
 
         qualifiedName = kind2Node.getName() + "." + name;
         line = jsonObject.get(Kind2Labels.line).getAsLong();
-        column = jsonObject.get(Kind2Labels.line).getAsLong();
+        column = jsonObject.get(Kind2Labels.column).getAsLong();
     }
 
     private Kind2Analysis getKind2Analysis()
