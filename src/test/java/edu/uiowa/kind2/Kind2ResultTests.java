@@ -45,21 +45,21 @@ public class Kind2ResultTests
         List<Kind2Suggestion> lockSuggestion = result.getNodeResult("Lock").getSuggestions();
 
         String propertyName = "ControlSpec[l117c12].R1: Until the access code is first set, the door cannot be unlocked[1]";
-        List<Kind2Property> inductionSteps = result.getNodeResult("Control")
+        List<Kind2Property> attempts = result.getNodeResult("Control")
                 .getLastAnalysis().getPropertiesMap().get(propertyName);
-        assertEquals(96, inductionSteps.size());
+        assertEquals(3, attempts.size());
 
-        assertEquals(Kind2Answer.unknown, inductionSteps.get(0).getAnswer());
-        assertEquals(0, inductionSteps.get(0).getKInductionStep().intValue());
-        assertNotNull(inductionSteps.get(0).getCounterExample());
+        assertEquals(Kind2Answer.unknown, attempts.get(0).getAnswer());
+        assertEquals(0, attempts.get(0).getKInductionStep().intValue());
+        assertNotNull(attempts.get(0).getCounterExample());
 
-        assertEquals(Kind2Answer.unknown, inductionSteps.get(1).getAnswer());
-        assertEquals(0, inductionSteps.get(1).getKInductionStep().intValue());
-        assertNotNull(inductionSteps.get(1).getCounterExample());
+        assertEquals(Kind2Answer.unknown, attempts.get(1).getAnswer());
+        assertEquals(1, attempts.get(1).getKInductionStep().intValue());
+        assertNotNull(attempts.get(1).getCounterExample());
 
-        assertEquals(Kind2Answer.valid, inductionSteps.get(95).getAnswer());
-        assertEquals(null, inductionSteps.get(95).getKInductionStep());
-        assertNull(inductionSteps.get(95).getCounterExample());
+        assertEquals(Kind2Answer.valid, attempts.get(2).getAnswer());
+        assertEquals(null, attempts.get(2).getKInductionStep());
+        assertNull(attempts.get(2).getCounterExample());
 
         assertEquals(Kind2SuggestionType.noActionRequired, controlSuggestion.get(0).getSuggestionType());
         assertEquals(Kind2SuggestionType.noActionRequired, keypadSuggestion.get(0).getSuggestionType());
