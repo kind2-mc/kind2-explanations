@@ -1,3 +1,7 @@
+# Kind2-Explanations
+
+## Build instructions
+
 ```shell script
 $ java -version
  java -version
@@ -10,3 +14,4 @@ $ java -version
  $ ./gradlew build 
  $ java -jar build/libs/kind2-explanations-all.jar files/a1.json
 ```
+To import the API, use the jar file `build/libs/kind2-explanations.jar`. 
