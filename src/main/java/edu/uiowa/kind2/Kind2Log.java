@@ -12,15 +12,42 @@ import com.google.gson.JsonObject;
 
 public class Kind2Log
 {
+    /**
+     * A level that gives a rough guide of the importance of the message.
+     */
     private final Kind2LogLevel level;
+    /**
+     * The name of the Kind 2 module which wrote the log.
+     */
     private final String source;
+    /**
+     * The log message.
+     */
     private final String value;
+    /**
+     * Associated kind2Result object
+     */
     private final Kind2Result kind2Result;
+    /**
+     * The original kind2 output for this object in pretty json format
+     */
     private final String prettyJson;
+    /**
+     * The original kind2 output for this object in json format
+     */
     private final String json;
     private final String logClass;
+    /**
+     * Associated line in the input file, if any.
+     */
     private final String line;
+    /**
+     * Associated column in the input file, if any.
+     */
     private final String column;
+    /**
+     * isHidden determines whether the current log is printed
+     */
     private boolean isHidden;
 
     public Kind2Log(Kind2Result kind2Result, JsonElement jsonElement)
