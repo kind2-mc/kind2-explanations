@@ -15,10 +15,21 @@ import java.util.stream.Collectors;
 public class Kind2Analysis
 {
     private final String json;
+    /**
+     * Name of the current top-level component.
+     */
     private final String nodeName;
-
+    /**
+     * Names of the subcomponents whose contract is used in the analysis.
+     */
     private final List<String> abstractNodes;
+    /**
+     * Names of the subcomponents whose implementation is used in the analysis.
+     */
     private final List<String> concreteNodes;
+    /**
+     * Array of pairs (name of subcomponent, number of considered invariants).
+     */
     private final List<Pair<String, String>> assumptions;
     private final List<String> subNodes;
 

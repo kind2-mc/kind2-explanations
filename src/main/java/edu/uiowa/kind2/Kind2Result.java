@@ -28,6 +28,9 @@ public class Kind2Result
     private static boolean printingOriginalNameEnabled = false;
     private Kind2NodeResult root;
     private Map<String, Kind2NodeResult> resultMap = new HashMap<>();
+    /**
+     * The wallclock timeout used for all the analyses
+     */
     private final String timeout;
     private final String json;
     private final List<Kind2Log> kind2Logs;
