@@ -13,18 +13,62 @@ public class Kind2Property
 {
     private final String json;
     private final JsonElement jsonElement;
+    /**
+     * Kind2 unique identifier for this property
+     */
     private final String jsonName;
+    /**
+     * Identifier for this property without line or column numbers.
+     * Unlike {@link Kind2Property#jsonName} this name may not be unique.
+     */
     private final String name;
+    /**
+     * A qualified identifier for this property without line or column numbers ({nodeName.propertyName}).
+     * Unlike {@link Kind2Property#jsonName} this name may not be unique.
+     */
     private final String qualifiedName;
+    /**
+     * Name of the component where the property was analyzed
+     */
     private final String scope;
+    /**
+     * Associated line in the input file, if any.
+     */
     private final String line;
+    /**
+     * Associated column in the input file, if any.
+     */
     private final String column;
+    /**
+     * The largest value of k for which the property was proved to be true, if any.
+     */
     private final String trueFor;
+    /**
+     * Origin of the property. Can be Assumption if it comes from an assumption check,
+     * Guarantee if it comes from the check of a guarantee,
+     * Ensure if it comes from a check of a require-ensure clause in a contract mode,
+     * OneModeActive if it comes from an exhaustiveness check of the state space covered by the modes of a contract,
+     * and PropAnnot if it comes from the check of a property annotation
+     */
     private final Kind2PropertyType source;
+    /**
+     * The source of the answer, and the result value of the check.
+     * The result can be valid, falsifiable, or unknown
+     */
     private final Kind2Answer answer;
+    /**
+     * Counterexample to the property satisfaction (only available when answer is falsifiable).
+     * It describes a sequence of values for each stream, and automaton,
+     * that leads the system to the violation of the property.
+     * It also gives the list of contract modes that are active at each step, if any.
+     */
     private final Kind2CounterExample counterExample;
     private final Kind2Analysis analysis;
+    /**
+     * The value of k in a k-inductive proof, if any.
+     */
     private final Integer kInductionStep;
+
 
     public Kind2Property(Kind2Analysis analysis, JsonElement jsonElement)
     {

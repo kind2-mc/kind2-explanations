@@ -5,6 +5,10 @@
 
 package edu.uiowa.kind2;
 
+/**
+ * The source of the answer, and the result value of the check.
+ * The result can be valid, falsifiable, or unknown
+ */
 public enum Kind2Answer
 {
     valid("valid"),

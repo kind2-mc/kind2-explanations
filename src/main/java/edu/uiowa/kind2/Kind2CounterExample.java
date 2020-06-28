@@ -8,6 +8,12 @@ package edu.uiowa.kind2;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 
+/**
+ * Counterexample to the property satisfaction (only available when answer is falsifiable).
+ * It describes a sequence of values for each stream, and automaton,
+ * that leads the system to the violation of the property.
+ * It also gives the list of contract modes that are active at each step, if any.
+ */
 public class Kind2CounterExample
 {
     private final Kind2SubNode mainNode;
