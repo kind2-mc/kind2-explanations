@@ -31,6 +31,9 @@ public class Kind2Analysis
      * Array of pairs (name of subcomponent, number of considered invariants).
      */
     private final List<Pair<String, String>> assumptions;
+    /**
+     * names of the subcomponents of the current node
+     */
     private final List<String> subNodes;
 
     private final Map<String, List<Kind2Property>> propertiesMap;
@@ -105,6 +108,10 @@ public class Kind2Analysis
         return json;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getNodeName()
     {
         return nodeName;
