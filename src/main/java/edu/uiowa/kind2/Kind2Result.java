@@ -55,13 +55,25 @@ public class Kind2Result
      */
     private static String closingSymbols = "}}";
     private static boolean printingOriginalNameEnabled = false;
+    /**
+     * The top component in kind2 output.
+     */
     private Kind2NodeResult root;
+    /**
+     * A mapping to store the results of sub-components.
+     */
     private Map<String, Kind2NodeResult> resultMap = new HashMap<>();
     /**
      * The wallclock timeout used for all the analyses
      */
     private final String timeout;
+    /**
+     * Kind2 json output.
+     */
     private final String json;
+    /**
+     * a list of kind2 logs.
+     */
     private final List<Kind2Log> kind2Logs;
     private final Kind2Mapping kind2Mapping;
 
@@ -73,7 +85,11 @@ public class Kind2Result
         kind2Logs = new ArrayList<>();
     }
 
-
+    /**
+     * Store the result of kind2 analysis for the given node
+     * @param key the name of the node
+     * @param analysis the result of the analysis performed on the specified node
+     */
     private void put(String key, Kind2Analysis analysis)
     {
         if (resultMap.containsKey(key))
@@ -90,6 +106,10 @@ public class Kind2Result
         }
     }
 
+    /**
+     * @param nodeName the name of the node
+     * @return {@link Kind2NodeResult} which contains the analyses performed by kind2 on this node
+     */
     public Kind2NodeResult getNodeResult(String nodeName)
     {
         return resultMap.get(nodeName);
@@ -140,7 +160,7 @@ public class Kind2Result
      * Analyze the json output of kind2 verification.
      *
      * @param json kind2 json output
-     * @return an object of Kind2Result which contains the result of analyzing kind2 output.
+     * @return {@link Kind2Result} which contains the result of analyzing kind2 output.
      */
     public static Kind2Result analyzeJsonResult(String json)
     {
@@ -289,6 +309,9 @@ public class Kind2Result
         }
     }
 
+    /**
+     * @return The wallclock timeout used for all the analyses
+     */
     public String getTimeout()
     {
         return timeout;
@@ -303,11 +326,17 @@ public class Kind2Result
         return root.print();
     }
 
+    /**
+     * @return Kind2 json output.
+     */
     public String getJson()
     {
         return json;
     }
 
+    /**
+     * @return {@link Kind2NodeResult} for the top component in kind2 output.
+     */
     public Kind2NodeResult getRoot()
     {
         return root;
@@ -323,16 +352,28 @@ public class Kind2Result
         return resultMap;
     }
 
+    /**
+     * @return a list of {@link Kind2Property} for all falsified properties including the falsified properties
+     * for the subcomponents.
+     */
     public Set<Kind2Property> getFalsifiedProperties()
     {
         return root.getFalsifiedProperties();
     }
 
+    /**
+     * @return a list of {@link Kind2Property} for all valid properties including the valid properties
+     * for the subcomponents.
+     */
     public Set<Kind2Property> getValidProperties()
     {
         return root.getValidProperties();
     }
 
+    /**
+     * @return a list of {@link Kind2Property} for all unknown properties including the unknown properties
+     * for the subcomponents.
+     */
     public Set<Kind2Property> getUnknownProperties()
     {
         return root.getUnknownProperties();
@@ -355,61 +396,101 @@ public class Kind2Result
         Kind2Result.printingCounterExamplesEnabled = value;
     }
 
+    /**
+     * @return a boolean that determines whether to print the last counter examples for unknown properties
+     */
     public static boolean isPrintingUnknownCounterExamplesEnabled()
     {
         return printingUnknownCounterExamplesEnabled;
     }
 
-    public static void setPrintingUnknownCounterExamplesEnabled(boolean printingUnknownCounterExamplesEnabled)
+    /**
+     * Sets the value of printingUnknownCounterExamplesEnabled
+     * @param value
+     */
+    public static void setPrintingUnknownCounterExamplesEnabled(boolean value)
     {
-        Kind2Result.printingUnknownCounterExamplesEnabled = printingUnknownCounterExamplesEnabled;
+        Kind2Result.printingUnknownCounterExamplesEnabled = value;
     }
 
+    /**
+     * @return a boolean that determines whether line numbers are printed
+     */
     public static boolean isPrintingLineNumbersEnabled()
     {
         return printingLineNumbersEnabled;
     }
 
-    public static void setPrintingLineNumbersEnabled(boolean printingLineNumbersEnabled)
+    /** set the value of  printingLineNumbersEnabled
+     * @param value
+     */
+    public static void setPrintingLineNumbersEnabled(boolean value)
     {
-        Kind2Result.printingLineNumbersEnabled = printingLineNumbersEnabled;
+        Kind2Result.printingLineNumbersEnabled = value;
     }
 
+    /**
+     * Set the opening symbols for printing lustre names
+     * @param symbols
+     */
     public static void setOpeningSymbols(String symbols)
     {
         Kind2Result.openingSymbols = symbols;
     }
 
+    /**
+     * Set the opening symbols for printing lustre names
+     * @param symbols
+     */
     public static void setClosingSymbols(String symbols)
     {
         Kind2Result.closingSymbols = symbols;
     }
 
+    /**
+     * @return returns the precision for printing real numbers
+     */
     public static int getRealPrecision()
     {
         return realPrecision;
     }
-
+    /**
+     * Set the precision for printing real numbers
+     */
     public static void setRealPrecision(int realPrecision)
     {
         Kind2Result.realPrecision = realPrecision;
     }
 
+    /**
+     * @return the rounding mode for real numbers
+     */
     public static RoundingMode getRealRoundingMode()
     {
         return realRoundingMode;
     }
 
+    /**
+     * Set the rounding mode for real numbers
+     * @param realRoundingMode
+     * see https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/math/RoundingMode.html
+     */
     public static void setRealRoundingMode(RoundingMode realRoundingMode)
     {
         Kind2Result.realRoundingMode = realRoundingMode;
     }
 
+    /**
+     * @return the opening symbols for printing lustre names
+     */
     public static String getOpeningSymbols()
     {
         return openingSymbols;
     }
 
+    /**
+     * @return the closing symbols for printing lustre names
+     */
     public static String getClosingSymbols()
     {
         return closingSymbols;
@@ -432,11 +513,17 @@ public class Kind2Result
         return resultMap.get(originalNodeName);
     }
 
+    /**
+     * @return a list of {@link Kind2Log} excluding hidden logs.
+     */
     public List<Kind2Log> getKind2Logs()
     {
         return kind2Logs.stream().filter(l -> !l.isHidden()).collect(Collectors.toList());
     }
 
+    /**
+     * @return a list of {@link Kind2Log} for all kind2 logs.
+     */
     public List<Kind2Log> getAllKind2Logs()
     {
         return kind2Logs;
