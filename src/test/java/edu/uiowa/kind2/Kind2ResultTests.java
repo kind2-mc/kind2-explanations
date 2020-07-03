@@ -311,7 +311,6 @@ public class Kind2ResultTests
 
         Kind2IdentifierMapping enumName = new Kind2IdentifierMapping("direction", "iml_dot_systems_dot_Direction");
         Kind2IdentifierMapping enumValue = new Kind2IdentifierMapping("in", "iml_dot_systems_dot_Direction_dot_IN");
-        Kind2EnumMapping enumMapping = new Kind2EnumMapping(enumName, Collections.singletonList(enumValue));
 
         // logs
         Kind2Result result = Kind2Result.analyzeJsonResult(json);
