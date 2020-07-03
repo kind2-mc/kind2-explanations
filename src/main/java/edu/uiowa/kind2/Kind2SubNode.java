@@ -78,15 +78,6 @@ public class Kind2SubNode
         return name;
     }
 
-    public String getOriginalName()
-    {
-        if (getKind2Result() == null)
-        {
-            return name;
-        }
-        return getKind2Result().getOriginalName(name);
-    }
-
     public Kind2Result getKind2Result()
     {
         return counterExample.getKind2Result();
@@ -123,9 +114,9 @@ public class Kind2SubNode
         int maxLength = 0;
         for (Kind2Stream stream : streams)
         {
-            if (stream.getOriginalName().length() > maxLength)
+            if (stream.getName().length() > maxLength)
             {
-                maxLength = stream.getOriginalName().length();
+                maxLength = stream.getName().length();
             }
         }
 
@@ -173,7 +164,7 @@ public class Kind2SubNode
     public String print(int maxNameLength, int maxValueLength)
     {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("\n  Node " + getOriginalName() + ":\n");
+        stringBuilder.append("\n  Node " + name + ":\n");
         stringBuilder.append("    == Inputs ==");
         // first print the time
         for (Kind2Stream stream : streams)
@@ -213,7 +204,7 @@ public class Kind2SubNode
 
     private void printStream(int maxNameLength, int maxValueLength, StringBuilder stringBuilder, Kind2Stream stream)
     {
-        String streamName = String.format("%-" + maxNameLength + "s", stream.getOriginalName());
+        String streamName = String.format("%-" + maxNameLength + "s", stream.getName());
         stringBuilder.append("\n    " + streamName + "\t");
         for (Kind2StepValue value : stream.getStepValues())
         {

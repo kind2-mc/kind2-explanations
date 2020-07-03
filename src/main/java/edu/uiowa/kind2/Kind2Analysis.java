@@ -123,7 +123,7 @@ public class Kind2Analysis
         {
             return nodeName;
         }
-        return nodeResult.getOriginalName();
+        return nodeResult.getName();
     }
 
     public List<String> getAbstractNodes()

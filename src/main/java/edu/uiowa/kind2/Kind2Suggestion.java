@@ -82,7 +82,7 @@ public class Kind2Suggestion
         }
         suggestion.label = String.format("Kind2 did not find an answer for component %1$s " +
                         "within time limit = %2$s seconds. Try to increase the timeout.",
-                nodeResult.getOriginalName(),
+                nodeResult.getName(),
                 nodeResult.getKind2Result().getTimeout());
         return suggestion;
     }
@@ -125,7 +125,7 @@ public class Kind2Suggestion
         }
 
         suggestion.explanations.add(String.format("Component %1$s is correct after refinement.",
-                nodeResult.getOriginalName()));
+                nodeResult.getName()));
         StringBuilder stringBuilder = new StringBuilder();
         for (String node : nodes)
         {
@@ -133,11 +133,9 @@ public class Kind2Suggestion
                     .add(String.format("%1$s is a subcomponent of %2$s. " +
                                     "Its contract is too weak to prove %2$s, "
                                     + "but its definition is strong enough. ",
-                            nodeResult.getKind2Result().getOriginalName(node),
-                            nodeResult.getOriginalName()));
+                            node, nodeResult.getName()));
 
-            stringBuilder.append(String.format("Fix the contract of  %1$s.\n",
-                    nodeResult.getKind2Result().getOriginalName(node)));
+            stringBuilder.append(String.format("Fix the contract of  %1$s.\n", node));
         }
 
         suggestion.label = stringBuilder.toString();
@@ -154,14 +152,14 @@ public class Kind2Suggestion
         if (isNodeContractSatisfied)
         {
             suggestion.explanations.add(String.format("Component %1$s satisfies its current contract.",
-                    nodeResult.getOriginalName()));
+                    nodeResult.getName()));
         }
 
         Map<String, List<Kind2Property>> subComponents = new HashMap<>();
 
         for (Kind2Property assumption : assumptions)
         {
-            String scope = assumption.getOriginalScope();
+            String scope = assumption.getScope();
             if (subComponents.containsKey(scope))
             {
                 subComponents.get(scope).add(assumption);
@@ -179,13 +177,13 @@ public class Kind2Suggestion
             suggestion.explanations.add(String.format("%1$s is a direct subcomponent of %2$s, "
                             + "but one or more assumptions of %1$s are not satisfied by %2$s.",
                     subcomponent.getKey(),
-                    nodeResult.getOriginalName()));
+                    nodeResult.getName()));
 
             suggestion.explanations.add("Falsified assumptions:");
 
             for (Kind2Property assumption : subcomponent.getValue())
             {
-                suggestion.explanations.add(assumption.getOriginalName());
+                suggestion.explanations.add(assumption.getQualifiedName());
                 if (Kind2Result.isPrintingCounterExamplesEnabled())
                 {
                     suggestion.explanations.add(assumption.getCounterExample().toString());
@@ -195,7 +193,7 @@ public class Kind2Suggestion
 
         suggestion.label = String.format("Either complete specification in the contract of  %1$s’, " +
                 "or remove components: %2$s.",
-                nodeResult.getOriginalName(),
+                nodeResult.getName(),
                 subComponents.values());
         return suggestion;
     }
@@ -209,7 +207,7 @@ public class Kind2Suggestion
 
         suggestion.explanations
                 .add(String.format("Component %1$s does not satisfy its contract after refinement.",
-                        nodeResult.getOriginalName()));
+                        nodeResult.getName()));
 
 
         StringBuilder stringBuilder = new StringBuilder();
@@ -218,17 +216,17 @@ public class Kind2Suggestion
         {
             suggestion.explanations.add(String.format("Assumption %1$s of subcomponent %2$s is " +
                             "not satisfied by %3$s.",
-                    assumption.getOriginalName(),
-                    assumption.getOriginalScope(),
-                    nodeResult.getOriginalName()));
+                    assumption.getName(),
+                    assumption.getScope(),
+                    nodeResult.getName()));
             if (Kind2Result.isPrintingCounterExamplesEnabled())
             {
                 suggestion.explanations.add(assumption.getCounterExample().toString());
             }
             stringBuilder.append(String.format("Either make assumption %1$s weaker, or fix the definition of %2$s " +
                             "to satisfy %1$s.\n",
-                    assumption.getOriginalName(),
-                    nodeResult.getOriginalName()));
+                    assumption.getQualifiedName(),
+                    nodeResult.getName()));
         }
 
         suggestion.explanations.add("\nFalsified Properties:");
@@ -258,11 +256,11 @@ public class Kind2Suggestion
         suggestion.label = String.format(
                 "Either make assumptions stronger in the contract of %1$ss, " +
                         "or fix the definition of %1$s to satisfy its contract",
-                nodeResult.getOriginalName());
+                nodeResult.getName());
 
         suggestion.explanations
                 .add(String.format("Component %1$s does not satisfy its contract after refinement.",
-                        nodeResult.getOriginalName()));
+                        nodeResult.getName()));
 
         suggestion.explanations.add("\nFalsified Properties:");
 
@@ -289,7 +287,7 @@ public class Kind2Suggestion
         for (Kind2Property property : subComponentUnprovenProperties)
         {
             suggestion.explanations.add(property.toString());
-            subComponents.add(property.getOriginalScope());
+            subComponents.add(property.getScope());
             if (Kind2Result.isPrintingCounterExamplesEnabled())
             {
                 suggestion.explanations.add(property.getCounterExample().toString());
@@ -307,10 +305,10 @@ public class Kind2Suggestion
 
         suggestion.explanations.add(String.format(
                 "Component %1$s does not satisfy its contract after refinement.",
-                nodeResult.getOriginalName()));
+                nodeResult.getName()));
 
         suggestion.label = String.format(String.format("Fix reported issues for %1$s’s subcomponents: %2$s.",
-                nodeResult.getOriginalName(),
+                nodeResult.getName(),
                 subComponents));
         return suggestion;
     }
@@ -335,10 +333,10 @@ public class Kind2Suggestion
 
         suggestion.explanations.add(String.format(
                 "The modes defined in the contract of %1$s does not cover all states.",
-                nodeResult.getOriginalName()));
+                nodeResult.getName()));
 
         suggestion.label = String.format(String.format("Fix the modes of component %1$s.",
-                nodeResult.getOriginalName()));
+                nodeResult.getName()));
         return suggestion;
     }
 }

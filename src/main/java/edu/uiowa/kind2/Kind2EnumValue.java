@@ -22,14 +22,9 @@ public class Kind2EnumValue extends Kind2Value
         return name;
     }
 
-    public String getOriginalName()
-    {
-        return getKind2Result().getOriginalName(name);
-    }
-
     @Override
     public String toString()
     {
-        return getOriginalName();
+        return name;
     }
 }

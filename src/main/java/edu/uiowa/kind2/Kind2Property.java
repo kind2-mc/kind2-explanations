@@ -100,12 +100,12 @@ public class Kind2Property
     {
         StringBuilder stringBuilder = new StringBuilder();
 
-        stringBuilder.append("The answer for property '" + getOriginalName() + "' ");
+        stringBuilder.append("The answer for property '" + getQualifiedName() + "' ");
 
         if (Kind2Result.isPrintingLineNumbersEnabled())
         {
-            stringBuilder.append("in line " + getOriginalLine() + " ");
-            stringBuilder.append("column " + getOriginalColumn() + " ");
+            stringBuilder.append("in line " + getLine() + " ");
+            stringBuilder.append("column " + getColumn() + " ");
         }
         stringBuilder.append("is " + answer + ".");
         if (answer == Kind2Answer.unknown)
@@ -142,38 +142,6 @@ public class Kind2Property
         return name;
     }
 
-    public String getOriginalName()
-    {
-        String qualifiedName;
-        if(source == Kind2PropertyType.assumption)
-        {
-            qualifiedName = getOriginalScope() + ".";
-        }
-        else
-        {
-            qualifiedName = getAnalysis().getNodeResult().getOriginalName() + ".";
-        }
-        if (getKind2Result() == null)
-        {
-            qualifiedName += name;
-        }
-        else
-        {
-            qualifiedName += getKind2Result().getOriginalName(name);
-        }
-        return qualifiedName;
-    }
-
-    public String getOriginalLine()
-    {
-        return line;
-    }
-
-    public String getOriginalColumn()
-    {
-        return column;
-    }
-
     public Kind2Result getKind2Result()
     {
         return analysis.getKind2Result();
@@ -182,15 +150,6 @@ public class Kind2Property
     public String getScope()
     {
         return scope;
-    }
-
-    public String getOriginalScope()
-    {
-        if (analysis.getKind2Result() == null)
-        {
-            return scope;
-        }
-        return analysis.getKind2Result().getOriginalName(scope);
     }
 
     public String getLine()

@@ -54,7 +54,6 @@ public class Kind2Result
      * The closing symbols for printing lustre names
      */
     private static String closingSymbols = "}}";
-    private static boolean printingOriginalNameEnabled = false;
     /**
      * The top component in kind2 output.
      */
@@ -475,11 +474,6 @@ public class Kind2Result
         return closingSymbols;
     }
 
-    public Kind2NodeResult getOriginalNodeResult(String originalNodeName)
-    {
-        return resultMap.get(originalNodeName);
-    }
-
     /**
      * @return a list of {@link Kind2Log} excluding hidden logs.
      */
@@ -494,20 +488,5 @@ public class Kind2Result
     public List<Kind2Log> getAllKind2Logs()
     {
         return kind2Logs;
-    }
-
-    public String getOriginalName(String name)
-    {
-        return name;
-    }
-
-    public static boolean isPrintingOriginalNameEnabled()
-    {
-        return printingOriginalNameEnabled;
-    }
-
-    public static void setPrintingOriginalNameEnabled(boolean printingOriginalNameEnabled)
-    {
-        Kind2Result.printingOriginalNameEnabled = printingOriginalNameEnabled;
     }
 }

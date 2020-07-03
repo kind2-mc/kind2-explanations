@@ -59,11 +59,6 @@ public class Kind2Stream
         return name;
     }
 
-    public String getOriginalName()
-    {
-        return kind2SubNode.getKind2Result().getOriginalName(name);
-    }
-
     public Kind2Type getKind2Type()
     {
         return kind2Type;
@@ -97,6 +92,6 @@ public class Kind2Stream
     @Override
     public String toString()
     {
-        return getOriginalName();
+        return getName();
     }
 }

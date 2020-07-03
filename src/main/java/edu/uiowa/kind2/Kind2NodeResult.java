@@ -44,9 +44,9 @@ public class Kind2NodeResult
         return suggestions;
     }
 
-    public String getOriginalName()
+    public String getName()
     {
-        return kind2Result.getOriginalName(name);
+        return name;
     }
 
     @Override
@@ -59,7 +59,7 @@ public class Kind2NodeResult
             stringBuilder.append(child.toString() + "\n");
         }
 
-        stringBuilder.append("Component: " + kind2Result.getOriginalName(name) + "\n");
+        stringBuilder.append("Component: " + name + "\n");
 
         //ToDo: review refactoring toString with print()
         for (Kind2Suggestion suggestion : suggestions)
@@ -101,12 +101,12 @@ public class Kind2NodeResult
             {
 
                 stringBuilder.append(property.getSource() +": ");
-                stringBuilder.append(property.getOriginalName());
+                stringBuilder.append(property.getQualifiedName());
 
                 if (Kind2Result.isPrintingLineNumbersEnabled())
                 {
-                    stringBuilder.append(" in line " + property.getOriginalLine() + " ");
-                    stringBuilder.append("column " + property.getOriginalColumn() + ".");
+                    stringBuilder.append(" in line " + property.getLine() + " ");
+                    stringBuilder.append("column " + property.getColumn() + ".");
                 }
                 stringBuilder.append("\n");
             }
@@ -306,7 +306,7 @@ public class Kind2NodeResult
             }
         }
 
-        stringBuilder.append("Component: " + kind2Result.getOriginalName(name) + "\n");
+        stringBuilder.append("Component: " + name + "\n");
 
         for (Kind2Suggestion suggestion : suggestions)
         {
