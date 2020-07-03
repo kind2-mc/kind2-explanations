@@ -166,12 +166,12 @@ public class Kind2Property
 
     public String getOriginalLine()
     {
-        return getKind2Result().getOriginalLine(name, line);
+        return line;
     }
 
     public String getOriginalColumn()
     {
-        return getKind2Result().getOriginalColumn(name, column);
+        return column;
     }
 
     public Kind2Result getKind2Result()

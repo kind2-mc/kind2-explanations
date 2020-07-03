@@ -75,11 +75,9 @@ public class Kind2Result
      * a list of kind2 logs.
      */
     private final List<Kind2Log> kind2Logs;
-    private final Kind2Mapping kind2Mapping;
 
-    private Kind2Result(Kind2Mapping kind2Mapping, String timeout, JsonArray jsonArray)
+    private Kind2Result(String timeout, JsonArray jsonArray)
     {
-        this.kind2Mapping = kind2Mapping;
         this.timeout = timeout;
         json = new GsonBuilder().setPrettyPrinting().create().toJson(jsonArray);
         kind2Logs = new ArrayList<>();
@@ -164,20 +162,6 @@ public class Kind2Result
      */
     public static Kind2Result analyzeJsonResult(String json)
     {
-        return analyzeJsonResult(json, new Kind2Mapping());
-    }
-
-    /**
-     * Analyze the json output of kind2 verification.
-     *
-     * @param json     kind2 json output
-     * @param mappings a map from lustre identifiers to the original identifiers. Any lustre identifier
-     *                 is replaced with the original name in printed messages if it exists.
-     *                 Otherwise the lustre identifier would be used.
-     * @return an object of Kind2Result which contains the result of analyzing kind2 output.
-     */
-    public static Kind2Result analyzeJsonResult(String json, Kind2Mapping mappings)
-    {
         Kind2Result kind2Result = null;
         JsonArray resultArray = new JsonParser().parse(json).getAsJsonArray();
         Kind2Analysis kind2Analysis = null;
@@ -192,7 +176,7 @@ public class Kind2Result
             if (kind2Object == Kind2Object.kind2Options)
             {
                 String timeout = jsonElement.getAsJsonObject().get(Kind2Labels.timeout).getAsString();
-                kind2Result = new Kind2Result(mappings, timeout, resultArray);
+                kind2Result = new Kind2Result(timeout, resultArray);
             }
 
             if (kind2Object == Kind2Object.log && kind2Result != null)
@@ -340,11 +324,6 @@ public class Kind2Result
     public Kind2NodeResult getRoot()
     {
         return root;
-    }
-
-    public Kind2Mapping getNamesMap()
-    {
-        return kind2Mapping;
     }
 
     public Map<String, Kind2NodeResult> getResultMap()
@@ -498,18 +477,6 @@ public class Kind2Result
 
     public Kind2NodeResult getOriginalNodeResult(String originalNodeName)
     {
-        if (Kind2Result.isPrintingOriginalNameEnabled())
-        {
-            // find the lustre name for the original node
-            Optional<Kind2IdentifierMapping> mapping = kind2Mapping.getNamesMap().values()
-                    .stream().filter(m -> m.getOriginalName().equals(originalNodeName))
-                    .findFirst();
-            if (mapping.isPresent())
-            {
-                return resultMap.get(mapping.get().getLustreName());
-            }
-            throw new RuntimeException(String.format("No mapping is found for '%1$s'.", originalNodeName));
-        }
         return resultMap.get(originalNodeName);
     }
 
@@ -531,27 +498,7 @@ public class Kind2Result
 
     public String getOriginalName(String name)
     {
-        return kind2Mapping.getOriginalName(name);
-    }
-
-    public String getOriginalLine(String kind2Name, String line)
-    {
-        return kind2Mapping.getOriginalLine(kind2Name, line);
-    }
-
-    public String getOriginalColumn(String kind2Name, String column)
-    {
-        return kind2Mapping.getOriginalColumn(kind2Name, column);
-    }
-
-    public Kind2Mapping getKind2Mapping()
-    {
-        return kind2Mapping;
-    }
-
-    public Set<String> getUnmappedNames()
-    {
-        return kind2Mapping.getUnmappedNames();
+        return name;
     }
 
     public static boolean isPrintingOriginalNameEnabled()
