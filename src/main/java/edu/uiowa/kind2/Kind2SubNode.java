@@ -25,6 +25,9 @@ public class Kind2SubNode
    */
   private final String name;
 
+  /**
+   * ToDo: document this
+   */
   private final String blockType;
   /**
    * The input, output, and local streams of the current component
@@ -125,7 +128,7 @@ public class Kind2SubNode
   }
 
   /**
-   * @return
+   * ToDo: document this
    */
   public String getBlockType()
   {
@@ -146,7 +149,11 @@ public class Kind2SubNode
     return json;
   }
 
-  public int getMaxNameLength()
+  /**
+   * @return the maximum string length of all variable names in order to align the string output of streams.
+   * This method is used internally and should not be public.
+   */
+  int getMaxNameLength()
   {
     int maxLength = 0;
     for (Kind2Stream stream : streams)
@@ -170,8 +177,11 @@ public class Kind2SubNode
     return maxLength;
   }
 
-
-  public int getMaxValueLength()
+  /**
+   * @return the maximum string length of values in order to align values of streams.
+   * This method is used internally and should not be public.
+   */
+  int getMaxValueLength()
   {
     int maxLength = 0;
     for (Kind2Stream stream : streams)
@@ -198,7 +208,13 @@ public class Kind2SubNode
     return maxLength;
   }
 
-  public String print(int maxNameLength, int maxValueLength)
+  /**
+   * Print the result of this component in friendly format.
+   * @param maxNameLength the maximum string lengths of variable names in streams
+   * @param maxValueLength the maximum string length of values in streams.
+   * @return a friendly formatted string for this component.
+   */
+  String print(int maxNameLength, int maxValueLength)
   {
     StringBuilder stringBuilder = new StringBuilder();
     stringBuilder.append("\n  Node " + name + ":\n");
@@ -239,6 +255,12 @@ public class Kind2SubNode
     return stringBuilder.toString();
   }
 
+  /**
+   * Print the result of a given stream in friendly format.
+   * @param maxNameLength the maximum string lengths of variable names in streams.
+   * @param maxValueLength the maximum string length of values in streams.
+   * @param stringBuilder used to append a friendly formatted string for the given stream.
+   */
   private void printStream(int maxNameLength, int maxValueLength, StringBuilder stringBuilder, Kind2Stream stream)
   {
     String streamName = String.format("%-" + maxNameLength + "s", stream.getName());

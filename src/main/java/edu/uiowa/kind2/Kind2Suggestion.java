@@ -9,25 +9,74 @@ package edu.uiowa.kind2;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * The class specifies the action that needs to be done in order to verify the current component.
+ * It stores explanations which determines why the suggestion is proposed.
+ * If N is the current component, and M is possibly a subcomponent of N, then the suggestion is one of the following:
+ * - noActionRequired: no action required because all components of the system satisfy their contracts, and no
+ *   component of the system was refined.
+ * - strengthenSubComponentContract: fix Ms contract because N is correct after refinement, but M's contract
+ *   is too weak to prove N's contract, but M's definition is strong enough.
+ * - completeSpecificationOrRemoveComponent: Either complete specification of N's contract, or remove
+ *   component M, because component N satisfies its current contract and one or more assumptions of M are
+ *   not satisfied by N.
+ * - makeWeakerOrFixDefinition: either make assumption A weaker, or fix N's definition to satisfy A, because
+ *   component N doesn't satisfy its contract after refinement, and assumption A of M is not satisfied by N.
+ * - makeAssumptionStrongerOrFixDefinition: Either make N's assumptions stronger, or fix N's definition to
+ *   satisfy N's guarantees, because component N doesn't satisfy its contract after refinement, and
+ *   either N has no subcomponents, or all its subcomponents satisfy their contract.
+ * - fixSubComponentIssues: fix reported issues for N's subcomponents, because component N doesn't satisfy its
+ *   contract after refinement, and One or more subcomponents of N don't satisfy their contract.
+ * - fixOneModeActive: define all modes of component N, because kind2 found a state that is not covered by any
+ *   of the modes in N's contract.
+ * - increaseTimeout: increase the timeout for kind2, because it fails to prove or disprove one of the properties
+ *   with the previous timeout.
+ */
 public class Kind2Suggestion
 {
+  /**
+   * The type of the current suggestion.
+   */
   private Kind2SuggestionType suggestionType;
 
+  /**
+   * Explanation justifies the current suggestion.
+   */
   private List<String> explanations = new ArrayList<>();
+
+  /**
+   * A friendly format for the current suggestion that combines both explanations and suggestion.
+   */
   private String label;
+
+  /**
+   * The associated node result.
+   */
   private final Kind2NodeResult nodeResult;
 
+  /**
+   * A private constructor. This class should not have a public constructor.
+   * Use the static methods in this class to create a new instance.
+   * @param nodeResult
+   * @param suggestionType
+   */
   private Kind2Suggestion(Kind2NodeResult nodeResult, Kind2SuggestionType suggestionType)
   {
     this.nodeResult = nodeResult;
     this.suggestionType = suggestionType;
   }
 
+  /**
+   * @return the associated kind2 result.
+   */
   private Kind2Result getKind2Result()
   {
     return nodeResult.getKind2Result();
   }
 
+  /**
+   * @return The type of the current suggestion.
+   */
   public Kind2SuggestionType getSuggestionType()
   {
     return suggestionType;
