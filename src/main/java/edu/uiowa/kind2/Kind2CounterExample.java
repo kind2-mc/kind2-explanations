@@ -17,6 +17,9 @@ import com.google.gson.JsonElement;
 public class Kind2CounterExample
 {
     private final Kind2SubNode mainNode;
+    /**
+     * Kind2 json output for this object
+     */
     private final String json;
     private final Kind2Property property;
 

@@ -8,6 +8,9 @@ import java.util.Optional;
 
 public class Kind2Element
 {
+    /**
+     * Kind2 json output for this object
+     */
     private final String json;
     private final JsonElement jsonElement;
     private final String category;

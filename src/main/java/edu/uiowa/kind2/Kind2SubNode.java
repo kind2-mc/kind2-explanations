@@ -13,11 +13,14 @@ import java.util.List;
 
 public class Kind2SubNode
 {
+    /**
+     * Kind2 json output for this object
+     */
+    private final String json;
     private final String name;
     private final String blockType;
     private final List<Kind2Stream> streams;
     private final List<Kind2SubNode> subNodes;
-    private final String json;
     private final Kind2CounterExample counterExample;
 
     public Kind2SubNode(Kind2CounterExample counterExample, JsonElement jsonElement)

@@ -10,6 +10,9 @@ import java.util.List;
 
 public class Kind2ModelElementSet
 {
+    /**
+     * Kind2 json output for this object
+     */
     private final String json;
     private final JsonElement jsonElement;
     private final String classField;

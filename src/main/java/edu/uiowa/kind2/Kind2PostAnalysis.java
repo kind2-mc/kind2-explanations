@@ -15,6 +15,9 @@ import java.util.Map;
 
 public class Kind2PostAnalysis
 {
+    /**
+     * Kind2 json output for this object
+     */
     private final String json;
     private final JsonElement jsonElement;
     private final String name;

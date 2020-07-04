@@ -14,6 +14,9 @@ import java.util.stream.Collectors;
 
 public class Kind2Analysis
 {
+    /**
+     * Kind2 json output for this object
+     */
     private final String json;
     /**
      * Name of the current top-level component.

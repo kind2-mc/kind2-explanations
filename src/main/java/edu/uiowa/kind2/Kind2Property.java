@@ -11,6 +11,9 @@ import com.google.gson.JsonObject;
 
 public class Kind2Property
 {
+    /**
+     * Kind2 json output for this object
+     */
     private final String json;
     private final JsonElement jsonElement;
     /**

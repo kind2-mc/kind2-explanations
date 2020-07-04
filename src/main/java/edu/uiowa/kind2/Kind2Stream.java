@@ -15,13 +15,16 @@ import java.util.List;
 
 public class Kind2Stream
 {
+    /**
+     * Kind2 json output for this object
+     */
+    private final String json;
     private final String name;
     private final Kind2Type kind2Type;
     private final String min;
     private final String max;
     private final String streamClass;
     private final List<Kind2StepValue> stepValues;
-    private final String json;
     private final Kind2SubNode kind2SubNode;
 
     public Kind2Stream(Kind2SubNode kind2SubNode, JsonElement jsonElement)

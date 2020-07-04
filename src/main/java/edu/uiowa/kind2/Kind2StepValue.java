@@ -10,6 +10,9 @@ import com.google.gson.JsonElement;
 
 public class Kind2StepValue
 {
+    /**
+     * Kind2 json output for this object
+     */
     private final String json;
     private final int time;
     private final Kind2Value kind2Value;

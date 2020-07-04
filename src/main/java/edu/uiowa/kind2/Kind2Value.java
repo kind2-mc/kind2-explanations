@@ -14,6 +14,9 @@ import java.util.List;
 
 abstract public class Kind2Value
 {
+    /**
+     * Kind2 json output for this object
+     */
     private final String json;
     private final Kind2StepValue kind2StepValue;
     private final Kind2Type kind2Type;
