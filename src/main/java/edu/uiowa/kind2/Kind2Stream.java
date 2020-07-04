@@ -16,15 +16,29 @@ import java.util.List;
 public class Kind2Stream
 {
   /**
-   * Kind2 json output for this object
+   * Kind2 json output for this object.
    */
   private final String json;
+  /**
+   * the name of the variable for this stream.
+   */
   private final String name;
+  /**
+   * The type of the variable:  bool, int, uint8, uint16, uint32, uint64, int8, int16, int32, int64. real,
+   * subrange, enum, or array.
+   */
   private final Kind2Type kind2Type;
-  private final String min;
-  private final String max;
+  /**
+   * the variable class: input, output, or local.
+   */
   private final String streamClass;
+  /**
+   * The sequence of values for this stream.
+   */
   private final List<Kind2StepValue> stepValues;
+  /**
+   * The associated component for this stream.
+   */
   private final Kind2SubNode kind2SubNode;
 
   public Kind2Stream(Kind2SubNode kind2SubNode, JsonElement jsonElement)
@@ -35,11 +49,6 @@ public class Kind2Stream
     String typeString = jsonElement.getAsJsonObject().get(Kind2Labels.type).getAsString();
     kind2Type = Kind2Type.getType(typeString);
     streamClass = jsonElement.getAsJsonObject().get(Kind2Labels.classField).getAsString();
-    max = jsonElement.getAsJsonObject().get(Kind2Labels.max) == null ? null :
-        jsonElement.getAsJsonObject().get(Kind2Labels.max).getAsString();
-    min = jsonElement.getAsJsonObject().get(Kind2Labels.max) == null ? null :
-        jsonElement.getAsJsonObject().get(Kind2Labels.min).getAsString();
-
 
     this.stepValues = new ArrayList<>();
 
@@ -52,41 +61,50 @@ public class Kind2Stream
     }
   }
 
+  /**
+    * @return the associated kind2 result for this stream.
+   */
   public Kind2Result getKind2Result()
   {
     return kind2SubNode.getKind2Result();
   }
 
+  /**
+   * @return the name of the variable for this stream.
+   */
   public String getName()
   {
     return name;
   }
 
+  /**
+   * @return The type of the variable:  bool, int, uint8, uint16, uint32, uint64, int8, int16, int32, int64. real,
+   * subrange, enum, or array.
+   */
   public Kind2Type getKind2Type()
   {
     return kind2Type;
   }
 
-  public String getMin()
-  {
-    return min;
-  }
-
-  public String getMax()
-  {
-    return max;
-  }
-
+  /**
+   * @return the variable class: input, output, or local.
+   */
   public String getStreamClass()
   {
     return streamClass;
   }
 
+  /**
+   * @return The sequence of values for this stream.
+   */
   public List<Kind2StepValue> getStepValues()
   {
     return stepValues;
   }
 
+  /**
+   * @return Kind2 json output for this object.
+   */
   public String getJson()
   {
     return json;

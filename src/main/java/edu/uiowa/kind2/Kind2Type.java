@@ -37,7 +37,11 @@ abstract public class Kind2Type
       {
         if (type.matches("subrange \\[.*?\\] of int"))
         {
-          return new Kind2SubRange();
+          String [] range = type.replaceAll("subrange \\[", "")
+                                .replaceAll("\\] of int", "").split(",");
+          int min = Integer.parseInt(range[0]);
+          int max = Integer.parseInt(range[0]);
+          return new Kind2SubRange(min, max);
         }
 
         if (type.startsWith("array of"))
