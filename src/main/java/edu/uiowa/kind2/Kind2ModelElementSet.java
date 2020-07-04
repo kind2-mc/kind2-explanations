@@ -11,16 +11,37 @@ import java.util.List;
 public class Kind2ModelElementSet
 {
   /**
-   * Kind2 json output for this object
+   * Kind2 json output for this object.
    */
   private final String json;
+  /**
+   * ToDo: document this 
+   */
   private final JsonElement jsonElement;
+  /**
+   * ToDo: document this 
+   */
   private final String classField;
+  /**
+   * ToDo: document this 
+   */
   private final int size;
+  /**
+   * ToDo: document this 
+   */
   private final String runtimeUnit;
+  /**
+   * ToDo: document this 
+   */
   private final double runtimeValue;
+  /**
+   * ToDo: document this 
+   */
   private final List<Kind2Node> nodes;
 
+  /**
+   * The associated  post analysis object. 
+   */
   private Kind2PostAnalysis postAnalysis;
 
   public Kind2ModelElementSet(Kind2PostAnalysis analysis, JsonElement jsonElement)
@@ -43,41 +64,66 @@ public class Kind2ModelElementSet
     }
   }
 
+  /**
+   * @return
+   *    Kind2 json output for this object
+   */
   public String getJson()
   {
     return json;
   }
 
+  /**
+   * ToDo: document this
+   */
   public JsonElement getJsonElement()
   {
     return jsonElement;
   }
 
+  /**
+   * ToDo: document this
+   */
   public String getClassField()
   {
     return classField;
   }
 
+  /**
+   * ToDo: document this
+   */
   public int getSize()
   {
     return size;
   }
 
+  /**
+   * ToDo: document this
+   */
   public String getRuntimeUnit()
   {
     return runtimeUnit;
   }
 
+  /**
+   * ToDo: document this
+   */
   public double getRuntimeValue()
   {
     return runtimeValue;
   }
 
+  /**
+   * ToDo: document this
+   */
   public List<Kind2Node> getNodes()
   {
     return nodes;
   }
 
+  /**
+   * @return the associated post analysis.
+   */
   public Kind2PostAnalysis getPostAnalysis()
   {
     return postAnalysis;
