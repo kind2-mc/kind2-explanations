@@ -12,6 +12,9 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+/**
+ * Main class of kind2-explanations.
+ */
 public class Main
 {
   public static void main(String args[])
