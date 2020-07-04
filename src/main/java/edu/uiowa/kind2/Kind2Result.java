@@ -113,13 +113,16 @@ public class Kind2Result
 
   /**
    * @param nodeName the name of the node
-   * @return {@link Kind2NodeResult} which contains the analyses performed by kind2 on this node
+   * @return {@link Kind2NodeResult} which contains the analyses performed by kind2 on the given node.
    */
   public Kind2NodeResult getNodeResult(String nodeName)
   {
     return resultMap.get(nodeName);
   }
 
+  /**
+   * wrapper for root.analyze();
+   */
   private void analyze()
   {
     if (root == null)

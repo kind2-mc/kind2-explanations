@@ -145,6 +145,28 @@ public class Kind2NodeResult
     return isAnalyzed;
   }
 
+  /**
+   * analyze kind2 output for the current node and its subnodes.
+   * If N is the current component, and M is possibly a subcomponent of N, then the suggestion is one of the following: 
+   * - noActionRequired: no action required because all components of the system satisfy their contracts, and no
+   *   component of the system was refined.
+   * - strengthenSubComponentContract: fix Ms contract because N is correct after refinement, but M's contract
+   *   is too weak to prove N's contract, but M's definition is strong enough.
+   * - completeSpecificationOrRemoveComponent: Either complete specification of N's contract, or remove
+   *   component M, because component N satisfies its current contract and one or more assumptions of M are
+   *   not satisfied by N.
+   * - makeWeakerOrFixDefinition: either make assumption A weaker, or fix N's definition to satisfy A, because
+   *   component N doesn't satisfy its contract after refinement, and assumption A of M is not satisfied by N.
+   * - makeAssumptionStrongerOrFixDefinition: Either make N's assumptions stronger, or fix N's definition to
+   *   satisfy N's guarantees, because component N doesn't satisfy its contract after refinement, and
+   *   either N has no subcomponents, or all its subcomponents satisfy their contract.
+   * - fixSubComponentIssues: fix reported issues for N's subcomponents, because component N doesn't satisfy its
+   *   contract after refinement, and One or more subcomponents of N don't satisfy their contract.
+   * - fixOneModeActive: define all modes of component N, because kind2 found a state that is not covered by any
+   *   of the modes in N's contract.
+   * - increaseTimeout: increase the timeout for kind2, because it fails to prove or disprove one of the properties
+   *   with the previous timeout.
+   */
   public void analyze()
   {
     // analyze children first
