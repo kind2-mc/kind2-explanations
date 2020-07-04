@@ -56,4 +56,5 @@ System.out.println(result.toString());
     contract after refinement, and One or more subcomponents of N don't satisfy their contract.
     - `fixOneModeActive`: define all modes of component `N`, because kind2 found a state that is not covered by any 
     of the modes in `N`'s contract. 
-    - `increaseTimeout`: increase the timeout for kind2, because it fails to prove or disprove one of the properties. 
+    - `increaseTimeout`: increase the timeout for kind2, because it fails to prove or disprove one of the properties
+    with the previous timeout.  
