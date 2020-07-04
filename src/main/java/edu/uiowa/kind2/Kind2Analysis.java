@@ -39,7 +39,10 @@ public class Kind2Analysis
    */
   private final List<String> subNodes;
   /**
-   * a map between json property name and kind2 attempt to prove this property in the current analysis
+   * a map between json property name and kind2 attempt to prove this property in the current analysis.
+   * A map is used because the same property name can appear on the json output with different k values.
+   * An example is ControlSpec[l117c12].R1: Until the access code is first set, the door cannot be unlocked[1]
+   * in file files/S1.json
    */
   private final Map<String, List<Kind2Property>> propertiesMap;
   /**
@@ -47,7 +50,7 @@ public class Kind2Analysis
    */
   private boolean isModeAnalysis = false;
   /**
-   * The associated node result
+   * The associated node result for this analysis.
    */
   private Kind2NodeResult nodeResult = null;
   /**
