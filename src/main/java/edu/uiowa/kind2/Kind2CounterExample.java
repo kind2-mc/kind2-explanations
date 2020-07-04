@@ -16,25 +16,38 @@ import com.google.gson.JsonElement;
  */
 public class Kind2CounterExample
 {
-  private final Kind2SubNode mainNode;
   /**
-   * Kind2 json output for this object
+   * Kind2 json output for this object.
    */
   private final String json;
+  /**
+   * This field stores the input, output, and local streams for the top node in this counter example.
+   */
+  private final Kind2SubNode topNode;
+
+  /**
+   * the associated property for this counter example.
+   */
   private final Kind2Property property;
 
   public Kind2CounterExample(Kind2Property property, JsonElement jsonElement)
   {
     this.property = property;
     json = new GsonBuilder().setPrettyPrinting().create().toJson(jsonElement);
-    mainNode = new Kind2SubNode(this, jsonElement);
+    topNode = new Kind2SubNode(this, jsonElement);
   }
 
-  public Kind2SubNode getMainNode()
+  /**
+   * @return the streams for the top node in this counter example.
+   */
+  public Kind2SubNode getTopNode()
   {
-    return mainNode;
+    return topNode;
   }
 
+  /**
+   * @return the associated kind2 result for this counter example.
+   */
   public Kind2Result getKind2Result()
   {
     return property.getKind2Result();
@@ -43,8 +56,24 @@ public class Kind2CounterExample
   @Override
   public String toString()
   {
-    int maxNameLength = mainNode.getMaxNameLength();
-    int maxValueLength = mainNode.getMaxValueLength();
-    return "Counterexample:" + mainNode.print(maxNameLength, maxValueLength);
+    int maxNameLength = topNode.getMaxNameLength();
+    int maxValueLength = topNode.getMaxValueLength();
+    return "Counterexample:" + topNode.print(maxNameLength, maxValueLength);
+  }
+
+  /**
+   * @return Kind2 json output for this object.
+   */
+  public String getJson()
+  {
+    return json;
+  }
+
+  /**
+   * @return the associated property for this counter example.
+   */
+  public Kind2Property getProperty()
+  {
+    return property;
   }
 }
