@@ -6,6 +6,9 @@
 
 package edu.uiowa.kind2;
 
+/**
+ * An abstract class for all kind2 types.
+ */
 abstract public class Kind2Type
 {
   public final String name;

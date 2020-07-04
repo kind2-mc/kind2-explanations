@@ -6,6 +6,9 @@
 
 package edu.uiowa.kind2;
 
+/**
+ * Enum for the types of suggestions.
+ */
 public enum Kind2SuggestionType
 {
   noActionRequired, // suggestion 1

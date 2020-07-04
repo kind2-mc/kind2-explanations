@@ -5,6 +5,11 @@
 
 package edu.uiowa.kind2;
 
+/**
+ * A pair class 
+ * @param <K> the java type of the first element.
+ * @param <V> the java type of the second element.
+ */
 final class Pair<K, V>
 {
   private final K key;
