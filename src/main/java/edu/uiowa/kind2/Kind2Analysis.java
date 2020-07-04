@@ -88,16 +88,16 @@ public class Kind2Analysis
       String nodeName = invariantArray.get(0).getAsString();
       String number = invariantArray.get(1).getAsString();
       assumptions.add(new Pair<>(nodeName, number));
-      if (!subNodes.contains(nodeName) && !nodeName.equals(this.nodeName))
-      {
-        //ToDo: find a permanent solution to invariants.
-        // subNodes.add(nodeName);
-      }
     }
 
     this.propertiesMap = new HashMap<>();
   }
 
+  /**
+   * Add the passed property to the list of properties in the current analysis.
+   * If the property has type one mode active, then the current analysis is for one mode active.
+   * @param property
+   */
   public void addProperty(Kind2Property property)
   {
     // add the property
@@ -117,38 +117,42 @@ public class Kind2Analysis
     }
   }
 
+  /**
+   * @return Kind2 json output for this object
+   */
   public String getJson()
   {
     return json;
   }
 
   /**
-   * @return
+   * @return name of the current top-level component.
    */
   public String getNodeName()
   {
     return nodeName;
   }
 
-  public String getNodeMappedName()
-  {
-    if (nodeResult == null)
-    {
-      return nodeName;
-    }
-    return nodeResult.getName();
-  }
-
+  /**
+   * @return names of the subcomponents whose contract is used in the analysis.
+   */
   public List<String> getAbstractNodes()
   {
     return abstractNodes;
   }
 
+  /**
+   * @return Names of the subcomponents whose implementation is used in the analysis.
+   */
   public List<String> getConcreteNodes()
   {
     return concreteNodes;
   }
 
+  /**
+   * @return the properties of the current analysis. Since the same property can appear many times,
+   * this method returns only the output of the last property attempted by kind2.
+   */
   public List<Kind2Property> getProperties()
   {
     List<Kind2Property> lastProperties = new ArrayList<>();
@@ -161,41 +165,69 @@ public class Kind2Analysis
     return lastProperties;
   }
 
+  /**
+   * This method filters the properties based on the type of the answer.
+   * @param answer can be valid, falsifiable, or unknown.
+   * @return the properties with the specified answer in the current analysis.
+   */
   private List<Kind2Property> filterProperties(Kind2Answer answer)
   {
     return getProperties().stream().filter(p -> p.getAnswer() == answer).collect(Collectors.toList());
   }
 
+  /**
+   * @return the falsified properties in the current analysis.
+   */
   public List<Kind2Property> getFalsifiedProperties()
   {
     return filterProperties(Kind2Answer.falsifiable);
   }
-
+  /**
+   * @return the unknown properties in the current analysis.
+   */
   public List<Kind2Property> getUnknownProperties()
   {
     return filterProperties(Kind2Answer.unknown);
   }
 
+  /**
+   * @return names of the subcomponents of the current node
+   */
   public List<String> getSubNodes()
   {
     return subNodes;
   }
 
+  /**
+   * @return is the current analysis comes from an exhaustiveness check of the state space covered by the modes of a
+   * contract.
+   */
   public boolean isModeAnalysis()
   {
     return isModeAnalysis;
   }
 
-  public void setNodeResult(Kind2NodeResult nodeResult)
+  /**
+   * associate the current analysis with the given node result.
+   * This method should only be called internally, and must not be public.
+   * @param nodeResult
+   */
+  void setNodeResult(Kind2NodeResult nodeResult)
   {
     this.nodeResult = nodeResult;
   }
 
+  /**
+   * @return the associated node result for this analysis.
+   */
   public Kind2NodeResult getNodeResult()
   {
     return nodeResult;
   }
 
+  /**
+   * @return The associated kind2 result for this analysis.
+   */
   public Kind2Result getKind2Result()
   {
     if (nodeResult == null)
@@ -208,28 +240,49 @@ public class Kind2Analysis
     }
   }
 
+  /**
+   * @return the valid properties in the current analysis.
+   */
   public List<Kind2Property> getValidProperties()
   {
     return filterProperties(Kind2Answer.valid);
   }
 
+  /**
+   * @return a map between json property name and kind2 attempt to prove this property in the current analysis.
+   * A map is used because the same property name can appear on the json output with different k values.
+   * An example is ControlSpec[l117c12].R1: Until the access code is first set, the door cannot be unlocked[1]
+   * in file files/S1.json
+   */
   public Map<String, List<Kind2Property>> getPropertiesMap()
   {
     return propertiesMap;
   }
 
+  /**
+   * @param jsonName kind2 name for this property (which includes the line number and column number).
+   * @return the output of the last property attempted by kind2 in this analysis with the given name.
+   */
   public Optional<Kind2Property> getProperty(String jsonName)
   {
     return getProperties()
         .stream().filter(p -> p.getJsonName().equals(jsonName)).findFirst();
   }
 
+  /**
+   * @return The post analysis performed after the current analysis.
+   */
   public Kind2PostAnalysis getPostAnalysis()
   {
     return postAnalysis;
   }
 
-  public void setPostAnalysis(Kind2PostAnalysis postAnalysis)
+  /**
+   * Associate the current analysis with the given post analysis.
+   * This method should only be used internally, and must not be public.
+   * @param postAnalysis
+   */
+  void setPostAnalysis(Kind2PostAnalysis postAnalysis)
   {
     if (this.postAnalysis == null)
     {
