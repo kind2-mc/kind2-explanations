@@ -121,7 +121,7 @@ public class Kind2Result
   }
 
   /**
-   * wrapper for root.analyze();
+   * wrapper for root.analyze().
    */
   private void analyze()
   {
