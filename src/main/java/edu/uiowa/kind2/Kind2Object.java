@@ -5,7 +5,9 @@
 
 package edu.uiowa.kind2;
 
-
+/**
+ * Enum for the kind2 json objects
+ */
 public enum Kind2Object
 {
   kind2Options("kind2Options"),

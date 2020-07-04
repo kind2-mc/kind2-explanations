@@ -27,7 +27,7 @@ public class Kind2Options
    */
   private final List<String> enabledModules;
   /**
-   * The wallclock timeout used for all the analyses
+   * The wallclock timeout used for all the analyses.
    */
   private final double timeout;
   /**
@@ -35,7 +35,7 @@ public class Kind2Options
    */
   private final int bmcMax;
   /**
-   * Whether compositional analysis is enabled or not
+   * Whether compositional analysis is enabled or not.
    */
   private final boolean compositional;
   /**
@@ -66,31 +66,49 @@ public class Kind2Options
     return json;
   }
 
+  /**
+   * @return Kind2 json output for this object
+   */
   public String getJson()
   {
     return json;
   }
 
+  /**
+   * @return list of Kind 2 module names that are enabled
+   */
   public List<String> getEnabledModules()
   {
     return enabledModules;
   }
 
+  /**
+   * @return the wallclock timeout used for all the analyses.
+   */
   public double getTimeout()
   {
     return timeout;
   }
 
+  /**
+   * @return maximal number of iterations for BMC and K-induction.
+   */
   public int getBmcMax()
   {
     return bmcMax;
   }
 
+  /**
+   * @return whether compositional analysis is enabled or not.
+   */
   public boolean isCompositional()
   {
     return compositional;
   }
 
+  /**
+   * @return whether modular analysis is enabled or not.
+   */
   public boolean isModular()
   {
     return modular;

@@ -5,6 +5,9 @@
 
 package edu.uiowa.kind2;
 
+/**
+ * Enum for property types.
+ */
 public enum Kind2PropertyType
 {
   assumption("Assumption"),

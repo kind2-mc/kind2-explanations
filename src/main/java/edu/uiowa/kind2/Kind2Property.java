@@ -9,6 +9,9 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+/**
+ * This class stores information about kind2 properties.
+ */
 public class Kind2Property
 {
   /**

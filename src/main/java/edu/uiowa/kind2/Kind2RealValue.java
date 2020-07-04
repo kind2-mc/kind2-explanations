@@ -12,10 +12,22 @@ import com.google.gson.JsonObject;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+/**
+ * The value of kind2 rational number.
+ */
 public class Kind2RealValue extends Kind2Value
 {
+  /**
+   * the value of the rational number.
+   */
   private final BigDecimal value;
+  /**
+   * The numerator of the rational
+   */
   private final BigInteger numerator;
+  /**
+   * The denominator of the rational number
+   */
   private final BigInteger denominator;
 
   public Kind2RealValue(Kind2StepValue kind2StepValue, Kind2Type kind2Type, JsonElement jsonElement)
@@ -37,6 +49,9 @@ public class Kind2RealValue extends Kind2Value
     }
   }
 
+  /**
+   * @return the value of the rational number.
+   */
   public BigDecimal getValue()
   {
     return value;

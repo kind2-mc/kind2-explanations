@@ -13,22 +13,32 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * ToDo: document this
+ */
 public class Kind2PostAnalysis
 {
   /**
-   * Kind2 json output for this object
+   * Kind2 json output for this object.
    */
   private final String json;
-  private final JsonElement jsonElement;
+  /**
+   * ToDo: document this
+   */
   private final String name;
+  /**
+   * ToDo: document this
+   */
   private final List<Kind2ModelElementSet> modelElements;
 
+  /**
+   * The associated kind2 analysis.
+   */
   private final Kind2Analysis analysis;
 
   public Kind2PostAnalysis(Kind2Analysis analysis, JsonElement jsonElement)
   {
     this.analysis = analysis;
-    this.jsonElement = jsonElement;
     json = new GsonBuilder().setPrettyPrinting().create().toJson(jsonElement);
 
     this.name = jsonElement.getAsJsonObject().get(Kind2Labels.name).getAsString();
@@ -40,21 +50,33 @@ public class Kind2PostAnalysis
     modelElements.add(modelElementSet);
   }
 
+  /**
+   * @return Kind2 json output for this object.
+   */
   public String getJson()
   {
     return json;
   }
 
+  /**
+   * ToDo: document this
+   */
   public String getName()
   {
     return name;
   }
 
+  /**
+   * @return the associated kind2 analysis.
+   */
   public Kind2Analysis getAnalysis()
   {
     return analysis;
   }
 
+  /**
+   * ToDo: document this
+   */
   public List<Kind2ModelElementSet> getModelElements()
   {
     return modelElements;
