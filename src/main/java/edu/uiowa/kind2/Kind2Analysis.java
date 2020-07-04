@@ -39,14 +39,20 @@ public class Kind2Analysis
    */
   private final List<String> subNodes;
   /**
-   * a map between json property name and
+   * a map between json property name and kind2 attempt to prove this property in the current analysis
    */
   private final Map<String, List<Kind2Property>> propertiesMap;
-
+  /**
+   * is the current analysis comes from an exhaustiveness check of the state space covered by the modes of a contract.
+   */
   private boolean isModeAnalysis = false;
-
+  /**
+   * The associated node result
+   */
   private Kind2NodeResult nodeResult = null;
-
+  /**
+   * The post analysis performed after the current analysis.
+   */
   private Kind2PostAnalysis postAnalysis;
 
   public Kind2Analysis(JsonElement jsonElement)
