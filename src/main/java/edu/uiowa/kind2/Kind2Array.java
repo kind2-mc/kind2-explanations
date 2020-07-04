@@ -5,6 +5,9 @@
 
 package edu.uiowa.kind2;
 
+/**
+ * Kind2 type for arrays.
+ */
 public class Kind2Array extends Kind2Type
 {
   private final Kind2Type elementType;

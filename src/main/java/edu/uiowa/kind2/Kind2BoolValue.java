@@ -9,6 +9,9 @@ package edu.uiowa.kind2;
 
 import com.google.gson.JsonElement;
 
+/**
+ * This class stores the boolean value of kind2 bool type.
+ */
 public class Kind2BoolValue extends Kind2Value
 {
   private final boolean value;

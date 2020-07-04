@@ -13,8 +13,7 @@ public enum Kind2Answer
 {
   valid("valid"),
   falsifiable("falsifiable"),
-  unknown("unknown"),
-  property("property");
+  unknown("unknown");
 
   private final String value;
 
@@ -33,8 +32,6 @@ public enum Kind2Answer
         return falsifiable;
       case "unknown":
         return unknown;
-      case "property":
-        return property;
       default:
         throw new UnsupportedOperationException("Answer " + answer + " is not defined");
     }

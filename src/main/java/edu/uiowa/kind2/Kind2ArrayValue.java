@@ -10,6 +10,9 @@ import com.google.gson.JsonElement;
 
 import java.util.List;
 
+/**
+ * This class stores the value of kind2 array type.
+ */
 public class Kind2ArrayValue extends Kind2Value
 {
   private final List<Kind2Value> values;

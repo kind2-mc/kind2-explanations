@@ -12,6 +12,9 @@ import com.google.gson.JsonElement;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * This class stores the results of kind2 analysis for a given node.
+ */
 public class Kind2Analysis
 {
   /**
