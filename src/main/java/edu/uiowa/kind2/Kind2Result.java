@@ -63,9 +63,9 @@ public class Kind2Result
    */
   private Map<String, Kind2NodeResult> resultMap = new HashMap<>();
   /**
-   * The wallclock timeout used for all the analyses
+   * The options used by kind2 process.
    */
-  private final String timeout;
+  private final Kind2Options options;
   /**
    * Kind2 json output.
    */
@@ -75,9 +75,15 @@ public class Kind2Result
    */
   private final List<Kind2Log> kind2Logs;
 
-  private Kind2Result(String timeout, JsonArray jsonArray)
+  /**
+   * A private constructor that is used internally by {@link Kind2Result#analyzeJsonResult(String)}.
+   * Use the static function
+   * @param options
+   * @param jsonArray
+   */
+  private Kind2Result(Kind2Options options, JsonArray jsonArray)
   {
-    this.timeout = timeout;
+    this.options = options;
     json = new GsonBuilder().setPrettyPrinting().create().toJson(jsonArray);
     kind2Logs = new ArrayList<>();
   }
@@ -175,8 +181,8 @@ public class Kind2Result
 
       if (kind2Object == Kind2Object.kind2Options)
       {
-        String timeout = jsonElement.getAsJsonObject().get(Kind2Labels.timeout).getAsString();
-        kind2Result = new Kind2Result(timeout, resultArray);
+        Kind2Options options = new Kind2Options(jsonElement);
+        kind2Result = new Kind2Result(options, resultArray);
       }
 
       if (kind2Object == Kind2Object.log && kind2Result != null)
@@ -296,9 +302,17 @@ public class Kind2Result
   /**
    * @return The wallclock timeout used for all the analyses
    */
-  public String getTimeout()
+  public double getTimeout()
   {
-    return timeout;
+    return options.getTimeout();
+  }
+
+  /**
+   * @return options used by kind2 process.
+   */
+  public Kind2Options getOptions()
+  {
+    return options;
   }
 
   public String print()

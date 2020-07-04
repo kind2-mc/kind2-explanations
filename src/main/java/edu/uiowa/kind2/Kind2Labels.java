@@ -7,6 +7,7 @@ package edu.uiowa.kind2;
 
 public class Kind2Labels
 {
+  public static final String bmcMax = "bmcMax";
   public static final String objectType = "objectType";
   public static final String top = "top";
   public static final String abstractField = "abstract";
@@ -49,4 +50,7 @@ public class Kind2Labels
   public static final String category = "category";
   public static final String equation = "Equation";
   public static final String nodeCall = "NodeCall";
+  public static final String compositional = "compositional";
+  public static final String modular = "modular";
+  public static final String enabled = "enabled";
 }
