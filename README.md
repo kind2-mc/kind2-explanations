@@ -40,7 +40,7 @@ System.out.println(result.toString());
 6. `Kind2Suggestion` contains explanations and a suggestion for the associated component. If `N` is the current 
     component, and `M` is possibly a subcomponent of `N`, then the suggestion is one of the following:
     
-    - `noActionRequired`: no action required because all components of the system satisfy their contracts, and no 
+    * `noActionRequired`: no action required because all components of the system satisfy their contracts, and no 
     component of the system was refined.
     - `strengthenSubComponentContract`: fix `M`s contract because `N` is correct after refinement, but `M`'s contract 
     is too weak to prove `N`'s contract, but `M`'s definition is strong enough.
