@@ -11,16 +11,32 @@ import com.google.gson.JsonElement;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class stores the input, output, and local streams for the current component.
+ */
 public class Kind2SubNode
 {
   /**
-   * Kind2 json output for this object
+   * Kind2 json output for this object.
    */
   private final String json;
+  /**
+   * The name of the current component.
+   */
   private final String name;
+
   private final String blockType;
+  /**
+   * The input, output, and local streams of the current component
+   */
   private final List<Kind2Stream> streams;
+  /**
+   * The streams of the subcomponents for this current component
+   */
   private final List<Kind2SubNode> subNodes;
+  /**
+   * The associated counter example.
+   */
   private final Kind2CounterExample counterExample;
 
   public Kind2SubNode(Kind2CounterExample counterExample, JsonElement jsonElement)
@@ -76,26 +92,41 @@ public class Kind2SubNode
     }
   }
 
+  /**
+   * @return the name of the current component.
+   */
   public String getName()
   {
     return name;
   }
 
+  /**
+   * @return the associated kind2 result.
+   */
   public Kind2Result getKind2Result()
   {
     return counterExample.getKind2Result();
   }
 
+  /**
+   * @return the streams for this component.
+   */
   public List<Kind2Stream> getStreams()
   {
     return streams;
   }
 
+  /**
+   * @return the streams of the subcomponents
+   */
   public List<Kind2SubNode> getSubNodes()
   {
     return subNodes;
   }
 
+  /**
+   * @return
+   */
   public String getBlockType()
   {
     return blockType;
@@ -107,6 +138,9 @@ public class Kind2SubNode
     return print(getMaxNameLength(), getMaxValueLength());
   }
 
+  /**
+   * @return Kind2 json output for this object.
+   */
   public String getJson()
   {
     return json;

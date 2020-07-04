@@ -37,8 +37,7 @@ System.out.println(result.toString());
     - `getValidProperties`, `getFalsifiedProperties`, and `getUnknownProperties` return properties for the current 
     component, and all its subcomponents. 
    
-6. `Kind2Suggestion` contains explanations and a suggestion for the associated component based on this 
-    [document](doc/main.pdf). If `N` is the current 
+6. `Kind2Suggestion` contains explanations and a suggestion for the associated component. If `N` is the current 
     component, and `M` is possibly a subcomponent of `N`, then the suggestion is one of the following:
     
     - `noActionRequired`: no action required because all components of the system satisfy their contracts, and no 
