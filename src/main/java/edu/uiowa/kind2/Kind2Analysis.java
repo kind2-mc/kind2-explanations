@@ -38,7 +38,9 @@ public class Kind2Analysis
    * names of the subcomponents of the current node
    */
   private final List<String> subNodes;
-
+  /**
+   * a map between json property name and
+   */
   private final Map<String, List<Kind2Property>> propertiesMap;
 
   private boolean isModeAnalysis = false;
