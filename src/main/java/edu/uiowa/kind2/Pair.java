@@ -6,7 +6,7 @@
 package edu.uiowa.kind2;
 
 /**
- * A pair class 
+ * A pair class
  * @param <K> the java type of the first element.
  * @param <V> the java type of the second element.
  */

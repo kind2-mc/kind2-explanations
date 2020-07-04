@@ -15,6 +15,7 @@ $ java -version
  $ java -jar build/libs/kind2-explanations-all.jar files/a1.json
 ```
 To import the API, use the jar file `build/libs/kind2-explanations.jar`. 
+Alternatively you can just copy the package `edu.uiowa.kind2` to your source code. 
 
 ## API usage
 
