@@ -26,467 +26,475 @@ import java.util.stream.Collectors;
  */
 public class Kind2Result
 {
-    /**
-     * Determines whether to print counter examples for falsifiable properties
-     */
-    private static boolean printingCounterExamplesEnabled = false;
-    /**
-     * Determines whether to print the last counter examples for unknown properties
-     */
-    private static boolean printingUnknownCounterExamplesEnabled = false;
-    /**
-     * Determines whether to print the line numbers of properties
-     */
-    private static boolean printingLineNumbersEnabled = false;
-    /**
-     * Determines the precision for printing real numbers
-     */
-    private static int realPrecision = 2;
-    /**
-     * See https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/math/RoundingMode.html
-      */
-    private static RoundingMode realRoundingMode = RoundingMode.HALF_UP;
-    /**
-     * The opening symbols for printing lustre names
-     */
-    private static String openingSymbols = "{{";
-    /**
-     * The closing symbols for printing lustre names
-     */
-    private static String closingSymbols = "}}";
-    /**
-     * The top component in kind2 output.
-     */
-    private Kind2NodeResult root;
-    /**
-     * A mapping to store the results of sub-components.
-     */
-    private Map<String, Kind2NodeResult> resultMap = new HashMap<>();
-    /**
-     * The wallclock timeout used for all the analyses
-     */
-    private final String timeout;
-    /**
-     * Kind2 json output.
-     */
-    private final String json;
-    /**
-     * a list of kind2 logs.
-     */
-    private final List<Kind2Log> kind2Logs;
+  /**
+   * Determines whether to print counter examples for falsifiable properties
+   */
+  private static boolean printingCounterExamplesEnabled = false;
+  /**
+   * Determines whether to print the last counter examples for unknown properties
+   */
+  private static boolean printingUnknownCounterExamplesEnabled = false;
+  /**
+   * Determines whether to print the line numbers of properties
+   */
+  private static boolean printingLineNumbersEnabled = false;
+  /**
+   * Determines the precision for printing real numbers
+   */
+  private static int realPrecision = 2;
+  /**
+   * See https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/math/RoundingMode.html
+   */
+  private static RoundingMode realRoundingMode = RoundingMode.HALF_UP;
+  /**
+   * The opening symbols for printing lustre names
+   */
+  private static String openingSymbols = "{{";
+  /**
+   * The closing symbols for printing lustre names
+   */
+  private static String closingSymbols = "}}";
+  /**
+   * The top component in kind2 output.
+   */
+  private Kind2NodeResult root;
+  /**
+   * A mapping to store the results of sub-components.
+   */
+  private Map<String, Kind2NodeResult> resultMap = new HashMap<>();
+  /**
+   * The wallclock timeout used for all the analyses
+   */
+  private final String timeout;
+  /**
+   * Kind2 json output.
+   */
+  private final String json;
+  /**
+   * a list of kind2 logs.
+   */
+  private final List<Kind2Log> kind2Logs;
 
-    private Kind2Result(String timeout, JsonArray jsonArray)
+  private Kind2Result(String timeout, JsonArray jsonArray)
+  {
+    this.timeout = timeout;
+    json = new GsonBuilder().setPrettyPrinting().create().toJson(jsonArray);
+    kind2Logs = new ArrayList<>();
+  }
+
+  /**
+   * Store the result of kind2 analysis for the given node
+   *
+   * @param key      the name of the node
+   * @param analysis the result of the analysis performed on the specified node
+   */
+  private void put(String key, Kind2Analysis analysis)
+  {
+    if (resultMap.containsKey(key))
     {
-        this.timeout = timeout;
-        json = new GsonBuilder().setPrettyPrinting().create().toJson(jsonArray);
-        kind2Logs = new ArrayList<>();
+      resultMap.get(key).addAnalysis(analysis);
     }
-
-    /**
-     * Store the result of kind2 analysis for the given node
-     * @param key the name of the node
-     * @param analysis the result of the analysis performed on the specified node
-     */
-    private void put(String key, Kind2Analysis analysis)
+    else
     {
-        if (resultMap.containsKey(key))
+      Kind2NodeResult nodeResult = new Kind2NodeResult(this, key);
+      nodeResult.addAnalysis(analysis);
+      resultMap.put(key, nodeResult);
+      // root is the last analysis in kind2
+      root = nodeResult;
+    }
+  }
+
+  /**
+   * @param nodeName the name of the node
+   * @return {@link Kind2NodeResult} which contains the analyses performed by kind2 on this node
+   */
+  public Kind2NodeResult getNodeResult(String nodeName)
+  {
+    return resultMap.get(nodeName);
+  }
+
+  private void analyze()
+  {
+    if (root == null)
+    {
+      throwKind2Errors();
+      return;
+    }
+    root.analyze();
+  }
+
+  private void throwKind2Errors()
+  {
+    StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append("An error has occurred during kind2 analysis. Please check the following logs:\n");
+    boolean someError = false;
+    for (Kind2Log log : kind2Logs)
+    {
+      if (log.getLevel() == Kind2LogLevel.error ||
+          log.getLevel() == Kind2LogLevel.fatal ||
+          log.getLevel() == Kind2LogLevel.off)
+      {
+        stringBuilder.append(log + "\n");
+        someError = true;
+      }
+    }
+    if (someError)
+    {
+      throw new RuntimeException(stringBuilder.toString());
+    }
+  }
+
+  @Override
+  public String toString()
+  {
+    StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append(root.toString());
+    stringBuilder.append("Verification summary\n");
+    stringBuilder.append(root.printVerificationSummary());
+    return stringBuilder.toString();
+  }
+
+  /**
+   * Analyze the json output of kind2 verification.
+   *
+   * @param json kind2 json output
+   * @return {@link Kind2Result} which contains the result of analyzing kind2 output.
+   */
+  public static Kind2Result analyzeJsonResult(String json)
+  {
+    Kind2Result kind2Result = null;
+    JsonArray resultArray = new JsonParser().parse(json).getAsJsonArray();
+    Kind2Analysis kind2Analysis = null;
+    // for post analysis
+    Kind2Analysis previousAnalysis = null;
+
+    for (JsonElement jsonElement : resultArray)
+    {
+      String objectType = jsonElement.getAsJsonObject().get(Kind2Labels.objectType).getAsString();
+      Kind2Object kind2Object = Kind2Object.getKind2Object(objectType);
+
+      if (kind2Object == Kind2Object.kind2Options)
+      {
+        String timeout = jsonElement.getAsJsonObject().get(Kind2Labels.timeout).getAsString();
+        kind2Result = new Kind2Result(timeout, resultArray);
+      }
+
+      if (kind2Object == Kind2Object.log && kind2Result != null)
+      {
+        Kind2Log log = new Kind2Log(kind2Result, jsonElement);
+        kind2Result.kind2Logs.add(log);
+      }
+
+      if (kind2Object == Kind2Object.analysisStart)
+      {
+        // define new analysis
+        kind2Analysis = new Kind2Analysis(jsonElement);
+      }
+
+      if (kind2Object == Kind2Object.analysisStop)
+      {
+        if (kind2Analysis != null)
         {
-            resultMap.get(key).addAnalysis(analysis);
+          // 	finish the analysis
+          kind2Result.put(kind2Analysis.getNodeName(), kind2Analysis);
+          previousAnalysis = kind2Analysis;
+          kind2Analysis = null;
         }
         else
         {
-            Kind2NodeResult nodeResult = new Kind2NodeResult(this, key);
-            nodeResult.addAnalysis(analysis);
-            resultMap.put(key, nodeResult);
-            // root is the last analysis in kind2
-            root = nodeResult;
+          throw new RuntimeException("Failed to analyze kind2 json output");
         }
-    }
+      }
 
-    /**
-     * @param nodeName the name of the node
-     * @return {@link Kind2NodeResult} which contains the analyses performed by kind2 on this node
-     */
-    public Kind2NodeResult getNodeResult(String nodeName)
-    {
-        return resultMap.get(nodeName);
-    }
-
-    private void analyze()
-    {
-        if (root == null)
+      if (kind2Object == Kind2Object.property)
+      {
+        if (kind2Analysis != null)
         {
-            throwKind2Errors();
-            return;
+          Kind2Property property = new Kind2Property(kind2Analysis, jsonElement);
+          kind2Analysis.addProperty(property);
         }
-        root.analyze();
-    }
-
-    private void throwKind2Errors()
-    {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("An error has occurred during kind2 analysis. Please check the following logs:\n");
-        boolean someError = false;
-        for (Kind2Log log : kind2Logs)
+        else
         {
-            if (log.getLevel() == Kind2LogLevel.error ||
-                    log.getLevel() == Kind2LogLevel.fatal ||
-                    log.getLevel() == Kind2LogLevel.off)
-            {
-                stringBuilder.append(log + "\n");
-                someError = true;
-            }
+          throw new RuntimeException("Can not parse kind2 json output");
         }
-        if (someError)
+      }
+
+      if (kind2Object == Kind2Object.postAnalysisStart)
+      {
+        if (previousAnalysis != null)
         {
-            throw new RuntimeException(stringBuilder.toString());
+          Kind2PostAnalysis postAnalysis = new Kind2PostAnalysis(previousAnalysis, jsonElement);
+          previousAnalysis.setPostAnalysis(postAnalysis);
         }
-    }
-
-    @Override
-    public String toString()
-    {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(root.toString());
-        stringBuilder.append("Verification summary\n");
-        stringBuilder.append(root.printVerificationSummary());
-        return stringBuilder.toString();
-    }
-
-    /**
-     * Analyze the json output of kind2 verification.
-     *
-     * @param json kind2 json output
-     * @return {@link Kind2Result} which contains the result of analyzing kind2 output.
-     */
-    public static Kind2Result analyzeJsonResult(String json)
-    {
-        Kind2Result kind2Result = null;
-        JsonArray resultArray = new JsonParser().parse(json).getAsJsonArray();
-        Kind2Analysis kind2Analysis = null;
-        // for post analysis
-        Kind2Analysis previousAnalysis = null;
-
-        for (JsonElement jsonElement : resultArray)
+        else
         {
-            String objectType = jsonElement.getAsJsonObject().get(Kind2Labels.objectType).getAsString();
-            Kind2Object kind2Object = Kind2Object.getKind2Object(objectType);
-
-            if (kind2Object == Kind2Object.kind2Options)
-            {
-                String timeout = jsonElement.getAsJsonObject().get(Kind2Labels.timeout).getAsString();
-                kind2Result = new Kind2Result(timeout, resultArray);
-            }
-
-            if (kind2Object == Kind2Object.log && kind2Result != null)
-            {
-                Kind2Log log = new Kind2Log(kind2Result, jsonElement);
-                kind2Result.kind2Logs.add(log);
-            }
-
-            if (kind2Object == Kind2Object.analysisStart)
-            {
-                // define new analysis
-                kind2Analysis = new Kind2Analysis(jsonElement);
-            }
-
-            if (kind2Object == Kind2Object.analysisStop)
-            {
-                if (kind2Analysis != null)
-                {
-                    // 	finish the analysis
-                    kind2Result.put(kind2Analysis.getNodeName(), kind2Analysis);
-                    previousAnalysis = kind2Analysis;
-                    kind2Analysis = null;
-                }
-                else
-                {
-                    throw new RuntimeException("Failed to analyze kind2 json output");
-                }
-            }
-
-            if (kind2Object == Kind2Object.property)
-            {
-                if (kind2Analysis != null)
-                {
-                    Kind2Property property = new Kind2Property(kind2Analysis, jsonElement);
-                    kind2Analysis.addProperty(property);
-                }
-                else
-                {
-                    throw new RuntimeException("Can not parse kind2 json output");
-                }
-            }
-
-            if(kind2Object == Kind2Object.postAnalysisStart)
-            {
-                if (previousAnalysis != null)
-                {
-                    Kind2PostAnalysis postAnalysis = new Kind2PostAnalysis(previousAnalysis, jsonElement);
-                    previousAnalysis.setPostAnalysis(postAnalysis);
-                }
-                else
-                {
-                    throw new RuntimeException("Can not parse kind2 json output");
-                }
-            }
-
-            if (kind2Object == Kind2Object.postAnalysisEnd)
-            {
-                if (previousAnalysis != null && previousAnalysis.getPostAnalysis() != null)
-                {
-                    // 	finish the post analysis
-                    previousAnalysis = null;
-                }
-                else
-                {
-                    throw new RuntimeException("Failed to analyze kind2 json output");
-                }
-            }
-
-            if (kind2Object == Kind2Object.modelElementSet)
-            {
-                if (previousAnalysis != null && previousAnalysis.getPostAnalysis() != null)
-                {
-                    Kind2PostAnalysis postAnalysis = previousAnalysis.getPostAnalysis();
-                    Kind2ModelElementSet elementSet = new Kind2ModelElementSet(postAnalysis, jsonElement);
-                    postAnalysis.addModelElementSet(elementSet);
-                }
-                else
-                {
-                    throw new RuntimeException("Can not parse kind2 json output");
-                }
-            }
+          throw new RuntimeException("Can not parse kind2 json output");
         }
+      }
 
-        // build the node tree
-        kind2Result.buildTree();
-        // analyze the result
-        kind2Result.analyze();
-
-        return kind2Result;
-    }
-
-    private void buildTree()
-    {
-        for (Map.Entry<String, Kind2NodeResult> entry : resultMap.entrySet())
+      if (kind2Object == Kind2Object.postAnalysisEnd)
+      {
+        if (previousAnalysis != null && previousAnalysis.getPostAnalysis() != null)
         {
-            Kind2NodeResult nodeResult = entry.getValue();
-
-            // we need this foreach loop to iterate through all analyses, and not just a single analysis.
-            // There are some cases where the child nodes are not returned in concrete or abstract fields
-            // and scattered across multiple analyses.
-
-            for (Kind2Analysis analysis : nodeResult.getAnalyses())
-            {
-                List<String> subNodes = analysis.getSubNodes();
-
-                for (String node : subNodes)
-                {
-                    if (resultMap.containsKey(node))
-                    {
-                        nodeResult.addChild(resultMap.get(node));
-                    }
-                }
-            }
+          // 	finish the post analysis
+          previousAnalysis = null;
         }
-    }
-
-    /**
-     * @return The wallclock timeout used for all the analyses
-     */
-    public String getTimeout()
-    {
-        return timeout;
-    }
-
-    public String print()
-    {
-        for (Map.Entry<String, Kind2NodeResult> entry : resultMap.entrySet())
+        else
         {
-            entry.getValue().setIsVisited(false);
+          throw new RuntimeException("Failed to analyze kind2 json output");
         }
-        return root.print();
+      }
+
+      if (kind2Object == Kind2Object.modelElementSet)
+      {
+        if (previousAnalysis != null && previousAnalysis.getPostAnalysis() != null)
+        {
+          Kind2PostAnalysis postAnalysis = previousAnalysis.getPostAnalysis();
+          Kind2ModelElementSet elementSet = new Kind2ModelElementSet(postAnalysis, jsonElement);
+          postAnalysis.addModelElementSet(elementSet);
+        }
+        else
+        {
+          throw new RuntimeException("Can not parse kind2 json output");
+        }
+      }
     }
 
-    /**
-     * @return Kind2 json output.
-     */
-    public String getJson()
-    {
-        return json;
-    }
+    // build the node tree
+    kind2Result.buildTree();
+    // analyze the result
+    kind2Result.analyze();
 
-    /**
-     * @return {@link Kind2NodeResult} for the top component in kind2 output.
-     */
-    public Kind2NodeResult getRoot()
-    {
-        return root;
-    }
+    return kind2Result;
+  }
 
-    public Map<String, Kind2NodeResult> getResultMap()
+  private void buildTree()
+  {
+    for (Map.Entry<String, Kind2NodeResult> entry : resultMap.entrySet())
     {
-        return resultMap;
-    }
+      Kind2NodeResult nodeResult = entry.getValue();
 
-    /**
-     * @return a list of {@link Kind2Property} for all falsified properties including the falsified properties
-     * for the subcomponents.
-     */
-    public Set<Kind2Property> getFalsifiedProperties()
-    {
-        return root.getFalsifiedProperties();
-    }
+      // we need this foreach loop to iterate through all analyses, and not just a single analysis.
+      // There are some cases where the child nodes are not returned in concrete or abstract fields
+      // and scattered across multiple analyses.
 
-    /**
-     * @return a list of {@link Kind2Property} for all valid properties including the valid properties
-     * for the subcomponents.
-     */
-    public Set<Kind2Property> getValidProperties()
-    {
-        return root.getValidProperties();
-    }
+      for (Kind2Analysis analysis : nodeResult.getAnalyses())
+      {
+        List<String> subNodes = analysis.getSubNodes();
 
-    /**
-     * @return a list of {@link Kind2Property} for all unknown properties including the unknown properties
-     * for the subcomponents.
-     */
-    public Set<Kind2Property> getUnknownProperties()
-    {
-        return root.getUnknownProperties();
+        for (String node : subNodes)
+        {
+          if (resultMap.containsKey(node))
+          {
+            nodeResult.addChild(resultMap.get(node));
+          }
+        }
+      }
     }
+  }
 
-    /**
-     * @return {@code true} if printing counter examples for falsifiable properties is enabled.
-     */
-    public static boolean isPrintingCounterExamplesEnabled()
-    {
-        return printingCounterExamplesEnabled;
-    }
+  /**
+   * @return The wallclock timeout used for all the analyses
+   */
+  public String getTimeout()
+  {
+    return timeout;
+  }
 
-    /**
-     * Sets the value of printingCounterExamplesEnabled
-     * @param value
-     */
-    public static void setPrintingCounterExamplesEnabled(boolean value)
+  public String print()
+  {
+    for (Map.Entry<String, Kind2NodeResult> entry : resultMap.entrySet())
     {
-        Kind2Result.printingCounterExamplesEnabled = value;
+      entry.getValue().setIsVisited(false);
     }
+    return root.print();
+  }
 
-    /**
-     * @return a boolean that determines whether to print the last counter examples for unknown properties
-     */
-    public static boolean isPrintingUnknownCounterExamplesEnabled()
-    {
-        return printingUnknownCounterExamplesEnabled;
-    }
+  /**
+   * @return Kind2 json output.
+   */
+  public String getJson()
+  {
+    return json;
+  }
 
-    /**
-     * Sets the value of printingUnknownCounterExamplesEnabled
-     * @param value
-     */
-    public static void setPrintingUnknownCounterExamplesEnabled(boolean value)
-    {
-        Kind2Result.printingUnknownCounterExamplesEnabled = value;
-    }
+  /**
+   * @return {@link Kind2NodeResult} for the top component in kind2 output.
+   */
+  public Kind2NodeResult getRoot()
+  {
+    return root;
+  }
 
-    /**
-     * @return a boolean that determines whether line numbers are printed
-     */
-    public static boolean isPrintingLineNumbersEnabled()
-    {
-        return printingLineNumbersEnabled;
-    }
+  public Map<String, Kind2NodeResult> getResultMap()
+  {
+    return resultMap;
+  }
 
-    /** set the value of  printingLineNumbersEnabled
-     * @param value
-     */
-    public static void setPrintingLineNumbersEnabled(boolean value)
-    {
-        Kind2Result.printingLineNumbersEnabled = value;
-    }
+  /**
+   * @return a list of {@link Kind2Property} for all falsified properties including the falsified properties
+   * for the subcomponents.
+   */
+  public Set<Kind2Property> getFalsifiedProperties()
+  {
+    return root.getFalsifiedProperties();
+  }
 
-    /**
-     * Set the opening symbols for printing lustre names
-     * @param symbols
-     */
-    public static void setOpeningSymbols(String symbols)
-    {
-        Kind2Result.openingSymbols = symbols;
-    }
+  /**
+   * @return a list of {@link Kind2Property} for all valid properties including the valid properties
+   * for the subcomponents.
+   */
+  public Set<Kind2Property> getValidProperties()
+  {
+    return root.getValidProperties();
+  }
 
-    /**
-     * Set the opening symbols for printing lustre names
-     * @param symbols
-     */
-    public static void setClosingSymbols(String symbols)
-    {
-        Kind2Result.closingSymbols = symbols;
-    }
+  /**
+   * @return a list of {@link Kind2Property} for all unknown properties including the unknown properties
+   * for the subcomponents.
+   */
+  public Set<Kind2Property> getUnknownProperties()
+  {
+    return root.getUnknownProperties();
+  }
 
-    /**
-     * @return returns the precision for printing real numbers
-     */
-    public static int getRealPrecision()
-    {
-        return realPrecision;
-    }
-    /**
-     * Set the precision for printing real numbers
-     */
-    public static void setRealPrecision(int realPrecision)
-    {
-        Kind2Result.realPrecision = realPrecision;
-    }
+  /**
+   * @return {@code true} if printing counter examples for falsifiable properties is enabled.
+   */
+  public static boolean isPrintingCounterExamplesEnabled()
+  {
+    return printingCounterExamplesEnabled;
+  }
 
-    /**
-     * @return the rounding mode for real numbers
-     */
-    public static RoundingMode getRealRoundingMode()
-    {
-        return realRoundingMode;
-    }
+  /**
+   * Sets the value of printingCounterExamplesEnabled
+   *
+   * @param value
+   */
+  public static void setPrintingCounterExamplesEnabled(boolean value)
+  {
+    Kind2Result.printingCounterExamplesEnabled = value;
+  }
 
-    /**
-     * Set the rounding mode for real numbers
-     * @param realRoundingMode
-     * see https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/math/RoundingMode.html
-     */
-    public static void setRealRoundingMode(RoundingMode realRoundingMode)
-    {
-        Kind2Result.realRoundingMode = realRoundingMode;
-    }
+  /**
+   * @return a boolean that determines whether to print the last counter examples for unknown properties
+   */
+  public static boolean isPrintingUnknownCounterExamplesEnabled()
+  {
+    return printingUnknownCounterExamplesEnabled;
+  }
 
-    /**
-     * @return the opening symbols for printing lustre names
-     */
-    public static String getOpeningSymbols()
-    {
-        return openingSymbols;
-    }
+  /**
+   * Sets the value of printingUnknownCounterExamplesEnabled
+   *
+   * @param value
+   */
+  public static void setPrintingUnknownCounterExamplesEnabled(boolean value)
+  {
+    Kind2Result.printingUnknownCounterExamplesEnabled = value;
+  }
 
-    /**
-     * @return the closing symbols for printing lustre names
-     */
-    public static String getClosingSymbols()
-    {
-        return closingSymbols;
-    }
+  /**
+   * @return a boolean that determines whether line numbers are printed
+   */
+  public static boolean isPrintingLineNumbersEnabled()
+  {
+    return printingLineNumbersEnabled;
+  }
 
-    /**
-     * @return a list of {@link Kind2Log} excluding hidden logs.
-     */
-    public List<Kind2Log> getKind2Logs()
-    {
-        return kind2Logs.stream().filter(l -> !l.isHidden()).collect(Collectors.toList());
-    }
+  /**
+   * set the value of  printingLineNumbersEnabled
+   *
+   * @param value
+   */
+  public static void setPrintingLineNumbersEnabled(boolean value)
+  {
+    Kind2Result.printingLineNumbersEnabled = value;
+  }
 
-    /**
-     * @return a list of {@link Kind2Log} for all kind2 logs.
-     */
-    public List<Kind2Log> getAllKind2Logs()
-    {
-        return kind2Logs;
-    }
+  /**
+   * Set the opening symbols for printing lustre names
+   *
+   * @param symbols
+   */
+  public static void setOpeningSymbols(String symbols)
+  {
+    Kind2Result.openingSymbols = symbols;
+  }
+
+  /**
+   * Set the opening symbols for printing lustre names
+   *
+   * @param symbols
+   */
+  public static void setClosingSymbols(String symbols)
+  {
+    Kind2Result.closingSymbols = symbols;
+  }
+
+  /**
+   * @return returns the precision for printing real numbers
+   */
+  public static int getRealPrecision()
+  {
+    return realPrecision;
+  }
+
+  /**
+   * Set the precision for printing real numbers
+   */
+  public static void setRealPrecision(int realPrecision)
+  {
+    Kind2Result.realPrecision = realPrecision;
+  }
+
+  /**
+   * @return the rounding mode for real numbers
+   */
+  public static RoundingMode getRealRoundingMode()
+  {
+    return realRoundingMode;
+  }
+
+  /**
+   * Set the rounding mode for real numbers
+   *
+   * @param realRoundingMode see https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/math/RoundingMode.html
+   */
+  public static void setRealRoundingMode(RoundingMode realRoundingMode)
+  {
+    Kind2Result.realRoundingMode = realRoundingMode;
+  }
+
+  /**
+   * @return the opening symbols for printing lustre names
+   */
+  public static String getOpeningSymbols()
+  {
+    return openingSymbols;
+  }
+
+  /**
+   * @return the closing symbols for printing lustre names
+   */
+  public static String getClosingSymbols()
+  {
+    return closingSymbols;
+  }
+
+  /**
+   * @return a list of {@link Kind2Log} excluding hidden logs.
+   */
+  public List<Kind2Log> getKind2Logs()
+  {
+    return kind2Logs.stream().filter(l -> !l.isHidden()).collect(Collectors.toList());
+  }
+
+  /**
+   * @return a list of {@link Kind2Log} for all kind2 logs.
+   */
+  public List<Kind2Log> getAllKind2Logs()
+  {
+    return kind2Logs;
+  }
 }

@@ -12,22 +12,22 @@ import java.math.BigInteger;
 
 public class Kind2IntValue extends Kind2Value
 {
-    private final BigInteger value;
+  private final BigInteger value;
 
-    public Kind2IntValue(Kind2StepValue kind2StepValue, Kind2Type kind2Type, JsonElement jsonElement)
-    {
-        super(kind2StepValue, kind2Type, jsonElement);
-        value = new BigInteger(jsonElement.getAsString());
-    }
+  public Kind2IntValue(Kind2StepValue kind2StepValue, Kind2Type kind2Type, JsonElement jsonElement)
+  {
+    super(kind2StepValue, kind2Type, jsonElement);
+    value = new BigInteger(jsonElement.getAsString());
+  }
 
-    public BigInteger getValue()
-    {
-        return value;
-    }
+  public BigInteger getValue()
+  {
+    return value;
+  }
 
-    @Override
-    public String toString()
-    {
-        return value.toString();
-    }
+  @Override
+  public String toString()
+  {
+    return value.toString();
+  }
 }

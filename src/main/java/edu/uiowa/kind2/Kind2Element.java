@@ -8,99 +8,99 @@ import java.util.Optional;
 
 public class Kind2Element
 {
-    /**
-     * Kind2 json output for this object
-     */
-    private final String json;
-    private final JsonElement jsonElement;
-    private final String category;
-    private final String jsonName;
-    private final String name;
-    private final String qualifiedName;
-    private final long line;
-    private final long column;
-    private final Kind2Node kind2Node;
-    private final Kind2Property kind2Property;
+  /**
+   * Kind2 json output for this object
+   */
+  private final String json;
+  private final JsonElement jsonElement;
+  private final String category;
+  private final String jsonName;
+  private final String name;
+  private final String qualifiedName;
+  private final long line;
+  private final long column;
+  private final Kind2Node kind2Node;
+  private final Kind2Property kind2Property;
 
-    public Kind2Element(Kind2Node kind2Node, JsonElement jsonElement)
+  public Kind2Element(Kind2Node kind2Node, JsonElement jsonElement)
+  {
+    this.kind2Node = kind2Node;
+    this.jsonElement = jsonElement;
+    json = new GsonBuilder().setPrettyPrinting().create().toJson(jsonElement);
+    JsonObject jsonObject = jsonElement.getAsJsonObject();
+    jsonName = jsonObject.get(Kind2Labels.name).getAsString();
+    category = jsonObject.get(Kind2Labels.category).getAsString();
+    if (category.equals(Kind2Labels.equation))
     {
-        this.kind2Node = kind2Node;
-        this.jsonElement = jsonElement;
-        json = new GsonBuilder().setPrettyPrinting().create().toJson(jsonElement);
-        JsonObject jsonObject = jsonElement.getAsJsonObject();
-        jsonName = jsonObject.get(Kind2Labels.name).getAsString();
-        category = jsonObject.get(Kind2Labels.category).getAsString();
-        if(category.equals(Kind2Labels.equation))
-        {
-            // equation does not correspond to a property
-            kind2Property = null;
-            name = jsonName;
-        }
-        else
-        {
-            // get the corresponding property
-            Optional<Kind2Property> property = getKind2Analysis().getProperty(jsonName);
-            this.kind2Property = property.isPresent()? property.get(): null;
-            name = jsonName.replaceAll("\\[.*?\\]", "").replaceFirst(".*?\\.", "");
-        }
-
-        qualifiedName = kind2Node.getName() + "." + name;
-        line = jsonObject.get(Kind2Labels.line).getAsLong();
-        column = jsonObject.get(Kind2Labels.column).getAsLong();
+      // equation does not correspond to a property
+      kind2Property = null;
+      name = jsonName;
+    }
+    else
+    {
+      // get the corresponding property
+      Optional<Kind2Property> property = getKind2Analysis().getProperty(jsonName);
+      this.kind2Property = property.isPresent() ? property.get() : null;
+      name = jsonName.replaceAll("\\[.*?\\]", "").replaceFirst(".*?\\.", "");
     }
 
-    private Kind2Analysis getKind2Analysis()
-    {
-        return this.kind2Node.getModelElementSet().getPostAnalysis().getAnalysis();
-    }
+    qualifiedName = kind2Node.getName() + "." + name;
+    line = jsonObject.get(Kind2Labels.line).getAsLong();
+    column = jsonObject.get(Kind2Labels.column).getAsLong();
+  }
 
-    public String getJson()
-    {
-        return json;
-    }
+  private Kind2Analysis getKind2Analysis()
+  {
+    return this.kind2Node.getModelElementSet().getPostAnalysis().getAnalysis();
+  }
 
-    public JsonElement getJsonElement()
-    {
-        return jsonElement;
-    }
+  public String getJson()
+  {
+    return json;
+  }
 
-    public String getCategory()
-    {
-        return category;
-    }
+  public JsonElement getJsonElement()
+  {
+    return jsonElement;
+  }
 
-    public String getJsonName()
-    {
-        return jsonName;
-    }
+  public String getCategory()
+  {
+    return category;
+  }
 
-    public long getLine()
-    {
-        return line;
-    }
+  public String getJsonName()
+  {
+    return jsonName;
+  }
 
-    public long getColumn()
-    {
-        return column;
-    }
+  public long getLine()
+  {
+    return line;
+  }
 
-    public Kind2Node getKind2Node()
-    {
-        return kind2Node;
-    }
+  public long getColumn()
+  {
+    return column;
+  }
 
-    public Kind2Property getKind2Property()
-    {
-        return kind2Property;
-    }
+  public Kind2Node getKind2Node()
+  {
+    return kind2Node;
+  }
 
-    public String getName()
-    {
-        return name;
-    }
+  public Kind2Property getKind2Property()
+  {
+    return kind2Property;
+  }
 
-    public String getQualifiedName()
-    {
-        return qualifiedName;
-    }
+  public String getName()
+  {
+    return name;
+  }
+
+  public String getQualifiedName()
+  {
+    return qualifiedName;
+  }
 }

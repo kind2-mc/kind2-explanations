@@ -9,52 +9,53 @@ import java.util.List;
 
 public class Kind2Node
 {
-    /**
-     * Kind2 json output for this object
-     */
-    private final String json;
-    private final JsonElement jsonElement;
-    private final String name;
-    private final Kind2ModelElementSet modelElementSet;
-    private final List<Kind2Element> elements;
-    public Kind2Node(Kind2ModelElementSet modelElementSet, JsonElement jsonElement)
-    {
-        this.modelElementSet = modelElementSet;
-        this.jsonElement = jsonElement;
-        json = new GsonBuilder().setPrettyPrinting().create().toJson(jsonElement);
-        JsonObject jsonObject = jsonElement.getAsJsonObject();
-        name = jsonObject.get(Kind2Labels.name).getAsString();
+  /**
+   * Kind2 json output for this object
+   */
+  private final String json;
+  private final JsonElement jsonElement;
+  private final String name;
+  private final Kind2ModelElementSet modelElementSet;
+  private final List<Kind2Element> elements;
 
-        elements = new ArrayList<>();
-        for (JsonElement element: jsonObject.get(Kind2Labels.elements).getAsJsonArray())
-        {
-            Kind2Element kind2Element = new Kind2Element(this, element);
-            elements.add(kind2Element);
-        }
-    }
+  public Kind2Node(Kind2ModelElementSet modelElementSet, JsonElement jsonElement)
+  {
+    this.modelElementSet = modelElementSet;
+    this.jsonElement = jsonElement;
+    json = new GsonBuilder().setPrettyPrinting().create().toJson(jsonElement);
+    JsonObject jsonObject = jsonElement.getAsJsonObject();
+    name = jsonObject.get(Kind2Labels.name).getAsString();
 
-    public String getJson()
+    elements = new ArrayList<>();
+    for (JsonElement element : jsonObject.get(Kind2Labels.elements).getAsJsonArray())
     {
-        return json;
+      Kind2Element kind2Element = new Kind2Element(this, element);
+      elements.add(kind2Element);
     }
+  }
 
-    public JsonElement getJsonElement()
-    {
-        return jsonElement;
-    }
+  public String getJson()
+  {
+    return json;
+  }
 
-    public String getName()
-    {
-        return name;
-    }
+  public JsonElement getJsonElement()
+  {
+    return jsonElement;
+  }
 
-    public Kind2ModelElementSet getModelElementSet()
-    {
-        return modelElementSet;
-    }
+  public String getName()
+  {
+    return name;
+  }
 
-    public List<Kind2Element> getElements()
-    {
-        return elements;
-    }
+  public Kind2ModelElementSet getModelElementSet()
+  {
+    return modelElementSet;
+  }
+
+  public List<Kind2Element> getElements()
+  {
+    return elements;
+  }
 }

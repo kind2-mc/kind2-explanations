@@ -16,35 +16,35 @@ import com.google.gson.JsonElement;
  */
 public class Kind2CounterExample
 {
-    private final Kind2SubNode mainNode;
-    /**
-     * Kind2 json output for this object
-     */
-    private final String json;
-    private final Kind2Property property;
+  private final Kind2SubNode mainNode;
+  /**
+   * Kind2 json output for this object
+   */
+  private final String json;
+  private final Kind2Property property;
 
-    public Kind2CounterExample(Kind2Property property, JsonElement jsonElement)
-    {
-        this.property = property;
-        json = new GsonBuilder().setPrettyPrinting().create().toJson(jsonElement);
-        mainNode = new Kind2SubNode(this, jsonElement);
-    }
+  public Kind2CounterExample(Kind2Property property, JsonElement jsonElement)
+  {
+    this.property = property;
+    json = new GsonBuilder().setPrettyPrinting().create().toJson(jsonElement);
+    mainNode = new Kind2SubNode(this, jsonElement);
+  }
 
-    public Kind2SubNode getMainNode()
-    {
-        return mainNode;
-    }
+  public Kind2SubNode getMainNode()
+  {
+    return mainNode;
+  }
 
-    public Kind2Result getKind2Result()
-    {
-        return property.getKind2Result();
-    }
+  public Kind2Result getKind2Result()
+  {
+    return property.getKind2Result();
+  }
 
-    @Override
-    public String toString()
-    {
-        int maxNameLength = mainNode.getMaxNameLength();
-        int maxValueLength = mainNode.getMaxValueLength();
-        return "Counterexample:" + mainNode.print(maxNameLength, maxValueLength);
-    }
+  @Override
+  public String toString()
+  {
+    int maxNameLength = mainNode.getMaxNameLength();
+    int maxValueLength = mainNode.getMaxValueLength();
+    return "Counterexample:" + mainNode.print(maxNameLength, maxValueLength);
+  }
 }
