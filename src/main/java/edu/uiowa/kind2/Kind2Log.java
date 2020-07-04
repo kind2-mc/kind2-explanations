@@ -17,6 +17,7 @@ public class Kind2Log
 {
   /**
    * A level that gives a rough guide of the importance of the message.
+   * Can be off, fatal, error, warn, note, info, debug, or trace.
    */
   private final Kind2LogLevel level;
   /**
@@ -32,7 +33,7 @@ public class Kind2Log
    */
   private final Kind2Result kind2Result;
   /**
-   * The original kind2 output for this object in pretty json format
+   * The original kind2 output for this object in pretty json format.
    */
   private final String prettyJson;
   /**
@@ -48,7 +49,7 @@ public class Kind2Log
    */
   private final String column;
   /**
-   * isHidden determines whether the current log is printed
+   * isHidden determines whether the current log is printed.
    */
   private boolean isHidden;
 
@@ -68,41 +69,66 @@ public class Kind2Log
     hideSpecialLogs();
   }
 
+  /**
+   * determines whether the current log should be printed.
+   */
   private void hideSpecialLogs()
   {
     this.isHidden = value.equals("Wallclock timeout.");
   }
 
+  /**
+   * @return A level that gives a rough guide of the importance of the message.
+   * Can be off, fatal, error, warn, note, info, debug, or trace.
+   */
   public Kind2LogLevel getLevel()
   {
     return level;
   }
 
+  /**
+   * @return The name of the Kind 2 module which wrote the log.
+   */
   public String getSource()
   {
     return source;
   }
 
+  /**
+   * @return The log message.
+   */
   public String getValue()
   {
     return value;
   }
 
+  /**
+   * @return the associated kind2 result for this log.
+   */
   public Kind2Result getKind2Result()
   {
     return kind2Result;
   }
 
+  /**
+   * @return The original kind2 output for this object in pretty json format.
+   */
   public String getJson()
   {
     return prettyJson;
   }
-  
+
+  /**
+   * @return the associated line in the input file, if any.
+   */
   public String getLine()
   {
     return line;
   }
 
+  /**
+   * @return the associated column in the input file, if any.
+   */
   public String getColumn()
   {
     return column;
@@ -114,6 +140,9 @@ public class Kind2Log
     return json;
   }
 
+  /**
+   * @return  a boolean that determines whether the current log is printed.
+   */
   public boolean isHidden()
   {
     return isHidden;
