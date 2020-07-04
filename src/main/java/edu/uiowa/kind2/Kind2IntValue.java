@@ -10,6 +10,9 @@ import com.google.gson.JsonElement;
 
 import java.math.BigInteger;
 
+/**
+ * Kind2 value for int, uint8, uint16, uint32, uint64, int8, int16, int32, int64.
+ */
 public class Kind2IntValue extends Kind2Value
 {
   private final BigInteger value;

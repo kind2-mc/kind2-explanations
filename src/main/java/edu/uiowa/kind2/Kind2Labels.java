@@ -5,6 +5,9 @@
 
 package edu.uiowa.kind2;
 
+/**
+ * Kind2 labels used in the json output.
+ */
 public class Kind2Labels
 {
   public static final String bmcMax = "bmcMax";

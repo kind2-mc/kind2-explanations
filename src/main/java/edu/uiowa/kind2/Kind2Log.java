@@ -10,6 +10,9 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+/**
+ * Kind2 output log.
+ */
 public class Kind2Log
 {
   /**
@@ -36,7 +39,6 @@ public class Kind2Log
    * The original kind2 output for this object in json format
    */
   private final String json;
-  private final String logClass;
   /**
    * Associated line in the input file, if any.
    */
@@ -59,8 +61,6 @@ public class Kind2Log
     this.level = Kind2LogLevel.getLevel(jsonObject.get(Kind2Labels.level).getAsString());
     this.source = jsonObject.get(Kind2Labels.source).getAsString();
     this.value = jsonObject.get(Kind2Labels.value).getAsString();
-    this.logClass = jsonObject.get(Kind2Labels.classField) == null ? null :
-        jsonObject.get(Kind2Labels.classField).getAsString();
     this.line = jsonObject.get(Kind2Labels.line) == null ? null :
         jsonObject.get(Kind2Labels.line).getAsString();
     this.column = jsonObject.get(Kind2Labels.column) == null ? null :
@@ -97,12 +97,7 @@ public class Kind2Log
   {
     return prettyJson;
   }
-
-  public String getLogClass()
-  {
-    return logClass;
-  }
-
+  
   public String getLine()
   {
     return line;

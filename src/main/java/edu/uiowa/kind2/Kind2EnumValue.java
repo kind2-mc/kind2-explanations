@@ -7,6 +7,9 @@ package edu.uiowa.kind2;
 
 import com.google.gson.JsonElement;
 
+/**
+ * The value of kind2 enum.
+ */
 public class Kind2EnumValue extends Kind2Value
 {
   private final String name;
