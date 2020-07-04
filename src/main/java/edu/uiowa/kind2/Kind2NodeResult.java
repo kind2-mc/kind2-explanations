@@ -9,22 +9,51 @@ package edu.uiowa.kind2;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * This class stores the result of all analyses done by kind2 for a given component.
+ */
 public class Kind2NodeResult
 {
+  /**
+   * the name of the component.
+   */
   private final String name;
 
+  /**
+   * A list of analyses done by kind2 for the current component.
+   */
   private List<Kind2Analysis> analyses = new ArrayList<>();
 
+  /**
+   * The list of node results for the subcomponents.
+   */
   private Set<Kind2NodeResult> children = new HashSet<>();
 
+  /**
+   * The list of components that call this component.
+   */
   private List<Kind2NodeResult> parents = new ArrayList<>();
 
+  /**
+   * determines whether the current component is analyzed. The current component may be called recursively
+   * by multiple components, and we need to analyze it only once.
+   */
   private boolean isAnalyzed = false;
 
+  /**
+   * determines whether the current component is printed. The current component may be called recursively
+   * by multiple components, and we need to print it only once.
+   */
   private boolean isVisited = true;
 
+  /**
+   * The list of suggestions for this component.
+   */
   private List<Kind2Suggestion> suggestions = new ArrayList<>();
 
+  /**
+   * The associated kind2 result.
+   */
   private final Kind2Result kind2Result;
 
   public Kind2NodeResult(Kind2Result kind2Result, String name)
@@ -33,17 +62,27 @@ public class Kind2NodeResult
     this.name = name;
   }
 
+  /**
+   * Add an analysis for this component.
+   * @param analysis
+   */
   public void addAnalysis(Kind2Analysis analysis)
   {
     getAnalyses().add(analysis);
     analysis.setNodeResult(this);
   }
 
+  /**
+   * @return the list of suggestions for this component.
+   */
   public List<Kind2Suggestion> getSuggestions()
   {
     return suggestions;
   }
 
+  /**
+   * @return the name of the component.
+   */
   public String getName()
   {
     return name;
@@ -61,7 +100,6 @@ public class Kind2NodeResult
 
     stringBuilder.append("Component: " + name + "\n");
 
-    //ToDo: review refactoring toString with print()
     for (Kind2Suggestion suggestion : suggestions)
     {
       stringBuilder.append(suggestion.toString());
@@ -70,6 +108,9 @@ public class Kind2NodeResult
     return stringBuilder.toString();
   }
 
+  /**
+   * @return the summary of the verification. Unlike toString() this does not print suggestions.
+   */
   public String printVerificationSummary()
   {
     StringBuilder stringBuilder = new StringBuilder();
@@ -89,15 +130,20 @@ public class Kind2NodeResult
     return stringBuilder.toString();
   }
 
-  private void printProperties(StringBuilder stringBuilder, Set<Kind2Property> validProperties)
+  /**
+   * Append a friendly string for the given properties to the given string builder
+   * @param stringBuilder
+   * @param properties
+   */
+  private void printProperties(StringBuilder stringBuilder, Set<Kind2Property> properties)
   {
-    if (validProperties.isEmpty())
+    if (properties.isEmpty())
     {
       stringBuilder.append("None.\n");
     }
     else
     {
-      for (Kind2Property property : validProperties)
+      for (Kind2Property property : properties)
       {
 
         stringBuilder.append(property.getSource() + ": ");
@@ -113,36 +159,48 @@ public class Kind2NodeResult
     }
   }
 
+  /**
+   * @return a list of analyses done by kind2 for the current component.
+   */
   public List<Kind2Analysis> getAnalyses()
   {
     return analyses;
   }
 
+ /**
+   * @return the list of node results for the subcomponents.
+   */
   public Set<Kind2NodeResult> getChildren()
   {
     return children;
   }
 
+  /**
+   * @return the last analysis done by kind2 for this component.
+   * The last analysis contains the final result.
+   */
   public Kind2Analysis getLastAnalysis()
   {
     return analyses.get(analyses.size() - 1);
   }
 
-  public void addChild(Kind2NodeResult child)
+  /**
+   * Add the node result of a subcomponent. This method is used internally, and should not be public.
+   * @param child
+   */
+  void addChild(Kind2NodeResult child)
   {
     children.add(child);
     // add this as another parent to the nodeResult
     child.parents.add(this);
   }
 
+  /**
+   * @return the list of components that call this component.
+   */
   public List<Kind2NodeResult> getParents()
   {
     return parents;
-  }
-
-  public boolean isAnalyzed()
-  {
-    return isAnalyzed;
   }
 
   /**
@@ -172,7 +230,7 @@ public class Kind2NodeResult
     // analyze children first
     for (Kind2NodeResult child : children)
     {
-      if (!child.isAnalyzed())
+      if (!child.isAnalyzed)
       {
         child.analyze();
       }
@@ -301,50 +359,17 @@ public class Kind2NodeResult
     isAnalyzed = true;
   }
 
+  /**
+   * @return the associated kind2 result.
+   */
   public Kind2Result getKind2Result()
   {
     return kind2Result;
   }
 
-  public void setIsVisited(boolean value)
-  {
-    isVisited = value;
-  }
-
-  public String print()
-  {
-    if (isVisited)
-    {
-      return "";
-    }
-
-    StringBuilder stringBuilder = new StringBuilder();
-
-    for (Kind2NodeResult child : children)
-    {
-      if (!child.isVisited)
-      {
-        stringBuilder.append(child.print() + "\n");
-      }
-    }
-
-    stringBuilder.append("Component: " + name + "\n");
-
-    for (Kind2Suggestion suggestion : suggestions)
-    {
-      stringBuilder.append(suggestion.toString() + "\n");
-    }
-
-    isVisited = true;
-
-    return stringBuilder.toString();
-  }
-
-  public boolean isVisited()
-  {
-    return isVisited;
-  }
-
+  /**
+   * @return the final list of falsified properties for this component and its subcomponents.
+   */
   public Set<Kind2Property> getFalsifiedProperties()
   {
     Set<Kind2Property> falsifiedProperties = new HashSet<>();
@@ -365,6 +390,9 @@ public class Kind2NodeResult
     return falsifiedProperties;
   }
 
+  /**
+   * @return the final list of valid properties for this component and its subcomponents.
+   */
   public Set<Kind2Property> getValidProperties()
   {
     Set<Kind2Property> validProperties = new HashSet<>();
@@ -381,6 +409,9 @@ public class Kind2NodeResult
     return validProperties;
   }
 
+  /**
+   * @return the final list of unknown properties for this component and its subcomponents.
+   */
   public Set<Kind2Property> getUnknownProperties()
   {
     Set<Kind2Property> unknownProperties = new HashSet<>();
