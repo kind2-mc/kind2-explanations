@@ -26,7 +26,7 @@ String json = new String(Files.readAllBytes(Paths.get("file.json")));
 Kind2Result result = Kind2Result.analyzeJsonResult(json);
 System.out.println(result.toString());
 ```
-4. <a name="Kind2Result">`Kind2Result`</a> features:
+4. `Kind2Result` features:
     - `getValidProperties`, `getFalsifiedProperties`, and `getUnknownProperties` return properties for all components. 
     - `getNodeResult` returns an object of `Kind2NodeResult` that summarizes all analyses done by kind2 for a 
     given component. 
