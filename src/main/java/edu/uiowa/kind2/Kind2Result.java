@@ -77,9 +77,10 @@ public class Kind2Result
 
   /**
    * A private constructor that is used internally by {@link Kind2Result#analyzeJsonResult(String)}.
-   * Use the static function
-   * @param options
-   * @param jsonArray
+   * Use the static method {@link Kind2Result#analyzeJsonResult(String) to get a an instance of this class}.
+   *
+   * @param options   an object of {@link Kind2Options} which describes the options used by kind2 process.
+   * @param jsonArray an array that captures all kind2 json output
    */
   private Kind2Result(Kind2Options options, JsonArray jsonArray)
   {
@@ -123,12 +124,17 @@ public class Kind2Result
   {
     if (root == null)
     {
+      // if the root object is null at this point, then we couldn't parse the json output properly.
+      // It makes sense to throw kind2 errors found in the log objects.
       throwKind2Errors();
       return;
     }
     root.analyze();
   }
 
+  /**
+   * throw a {@link RuntimeException} if at least one of kind2 logs is error, fatal, or off.
+   */
   private void throwKind2Errors()
   {
     StringBuilder stringBuilder = new StringBuilder();
@@ -169,7 +175,7 @@ public class Kind2Result
   public static Kind2Result analyzeJsonResult(String json)
   {
     Kind2Result kind2Result = null;
-    JsonArray resultArray = new JsonParser().parse(json).getAsJsonArray();
+    JsonArray resultArray = JsonParser.parseString(json).getAsJsonArray();
     Kind2Analysis kind2Analysis = null;
     // for post analysis
     Kind2Analysis previousAnalysis = null;
@@ -274,6 +280,9 @@ public class Kind2Result
     return kind2Result;
   }
 
+  /**
+   * construct a tree of subcomponents.
+   */
   private void buildTree()
   {
     for (Map.Entry<String, Kind2NodeResult> entry : resultMap.entrySet())
@@ -313,15 +322,6 @@ public class Kind2Result
   public Kind2Options getOptions()
   {
     return options;
-  }
-
-  public String print()
-  {
-    for (Map.Entry<String, Kind2NodeResult> entry : resultMap.entrySet())
-    {
-      entry.getValue().setIsVisited(false);
-    }
-    return root.print();
   }
 
   /**
