@@ -14,7 +14,10 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * ToDo: document this
+ * PostAnalysis in Kind 2
+ *
+ * TODO: Convert this class to an abstract class, and add customized classes
+ * for each post-analysis
  */
 public class Kind2PostAnalysis
 {
@@ -23,11 +26,11 @@ public class Kind2PostAnalysis
    */
   private final String json;
   /**
-   * ToDo: document this
+   * Name of the Kind 2 post-analysis
    */
   private final String name;
   /**
-   * ToDo: document this
+   * Model elements computed in the post-analysis
    */
   private final List<Kind2ModelElementSet> modelElements;
 
@@ -59,7 +62,7 @@ public class Kind2PostAnalysis
   }
 
   /**
-   * ToDo: document this
+   * @return the name of the Kind 2 post-analysis
    */
   public String getName()
   {
@@ -75,7 +78,7 @@ public class Kind2PostAnalysis
   }
 
   /**
-   * ToDo: document this
+   * @return the model elements computed in the post-analysis
    */
   public List<Kind2ModelElementSet> getModelElements()
   {

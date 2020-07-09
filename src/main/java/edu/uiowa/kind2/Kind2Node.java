@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ToDo: document this
+ * This class groups model elements belonging to the same node in a model element set
  */
 public class Kind2Node
 {
@@ -16,20 +16,18 @@ public class Kind2Node
    * Kind2 json output for this object.
    */
   private final String json;
-  /**
-   * ToDo: document this
-   */
+
   private final JsonElement jsonElement;
   /**
-   * ToDo: document this
+   * Name of the node
    */
   private final String name;
   /**
-   * ToDo: document this
+   * Model element set to which this class belongs to
    */
   private final Kind2ModelElementSet modelElementSet;
   /**
-   * ToDo: document this
+   * List of model elements which belongs to this node
    */
   private final List<Kind2Element> elements;
 
@@ -58,7 +56,7 @@ public class Kind2Node
   }
 
   /**
-   * ToDo: document this
+   * @return the name of the name
    */
   public String getName()
   {
@@ -66,7 +64,7 @@ public class Kind2Node
   }
 
   /**
-   * ToDo: document this
+   * @return the model element set to which this class belongs to
    */
   public Kind2ModelElementSet getModelElementSet()
   {
@@ -74,7 +72,7 @@ public class Kind2Node
   }
 
   /**
-   * ToDo: document this
+   * @return list of model elements which belongs to this node
    */
   public List<Kind2Element> getElements()
   {
