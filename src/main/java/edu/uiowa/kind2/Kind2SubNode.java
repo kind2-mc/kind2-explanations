@@ -26,7 +26,7 @@ public class Kind2SubNode
   private final String name;
 
   /**
-   * ToDo: document this
+   * The type of the current component. Can be "node", "function", or "state".
    */
   private final String blockType;
   /**
@@ -128,7 +128,7 @@ public class Kind2SubNode
   }
 
   /**
-   * ToDo: document this
+   * @return the type of the current component
    */
   public String getBlockType()
   {

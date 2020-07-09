@@ -14,28 +14,28 @@ public class Kind2ModelElementSet
    * Kind2 json output for this object.
    */
   private final String json;
-  /**
-   * ToDo: document this 
-   */
+
   private final JsonElement jsonElement;
   /**
-   * ToDo: document this 
+   * Class of the core.
+   * Can be "must", "must complement", "ivc", "ivc complement", "mcs", or
+   * "mcs complement".
    */
   private final String classField;
   /**
-   * ToDo: document this 
+   * Number of model elements in the core
    */
   private final int size;
   /**
-   * ToDo: document this 
+   * Time unit of the runtime value
    */
   private final String runtimeUnit;
   /**
-   * ToDo: document this 
+   * Runtime of the computation
    */
   private final double runtimeValue;
   /**
-   * ToDo: document this 
+   * List of nodes with at least one model element in the core
    */
   private final List<Kind2Node> nodes;
 
@@ -73,16 +73,13 @@ public class Kind2ModelElementSet
     return json;
   }
 
-  /**
-   * ToDo: document this
-   */
   public JsonElement getJsonElement()
   {
     return jsonElement;
   }
 
   /**
-   * ToDo: document this
+   * @return the class of the core
    */
   public String getClassField()
   {
@@ -90,7 +87,7 @@ public class Kind2ModelElementSet
   }
 
   /**
-   * ToDo: document this
+   * @return the size of the core
    */
   public int getSize()
   {
@@ -98,7 +95,7 @@ public class Kind2ModelElementSet
   }
 
   /**
-   * ToDo: document this
+   * @return the time unit of runtime value
    */
   public String getRuntimeUnit()
   {
@@ -106,7 +103,7 @@ public class Kind2ModelElementSet
   }
 
   /**
-   * ToDo: document this
+   * @return the runtime value
    */
   public double getRuntimeValue()
   {
@@ -114,7 +111,7 @@ public class Kind2ModelElementSet
   }
 
   /**
-   * ToDo: document this
+   * @return the list of nodes with at least one model element in the core
    */
   public List<Kind2Node> getNodes()
   {
