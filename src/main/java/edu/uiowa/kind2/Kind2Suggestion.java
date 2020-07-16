@@ -7,6 +7,7 @@
 package edu.uiowa.kind2;
 
 import java.util.*;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**
@@ -225,7 +226,7 @@ public class Kind2Suggestion
     {
       suggestion.explanations.add(String.format("%1$s is a direct subcomponent of %2$s, "
               + "but one or more assumptions of %1$s are not satisfied by %2$s.",
-          subcomponent.getKey(),
+          Kind2Result.getOpeningSymbols()  + subcomponent.getKey() + Kind2Result.getClosingSymbols(),
           nodeResult.getName()));
 
       suggestion.explanations.add("Falsified assumptions:");
@@ -240,10 +241,12 @@ public class Kind2Suggestion
       }
     }
 
-    suggestion.label = String.format("Either complete specification in the contract of  %1$s’, " +
+    suggestion.label = String.format("Either complete specification in the contract of  %1$s, " +
             "or remove components: %2$s.",
         nodeResult.getName(),
-        subComponents.values());
+        subComponents.keySet()
+                .stream().map(n -> Kind2Result.getOpeningSymbols()  + n + Kind2Result.getClosingSymbols())
+                .collect(Collectors.toSet()));
     return suggestion;
   }
 
@@ -303,8 +306,8 @@ public class Kind2Suggestion
         Kind2SuggestionType.makeAssumptionStrongerOrFixDefinition);
 
     suggestion.label = String.format(
-        "Either make assumptions stronger in the contract of %1$ss, " +
-            "or fix the definition of %1$s to satisfy its contract",
+        "Either make assumptions stronger in the contract of %1$s, " +
+            "or fix the definition of %1$s to satisfy its contract.",
         nodeResult.getName());
 
     suggestion.explanations

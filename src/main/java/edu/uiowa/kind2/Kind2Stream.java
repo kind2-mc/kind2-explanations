@@ -74,7 +74,7 @@ public class Kind2Stream
    */
   public String getName()
   {
-    return name;
+    return Kind2Result.getOpeningSymbols() + name + Kind2Result.getClosingSymbols();
   }
 
   /**

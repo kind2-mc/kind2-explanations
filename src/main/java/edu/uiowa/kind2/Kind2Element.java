@@ -44,7 +44,7 @@ public class Kind2Element
       name = jsonName.replaceAll("\\[.*?\\]", "").replaceFirst(".*?\\.", "");
     }
 
-    qualifiedName = kind2Node.getName() + "." + name;
+    qualifiedName = kind2Node.getName() + "." + Kind2Result.getOpeningSymbols() + name + Kind2Result.getClosingSymbols();
     line = jsonObject.get(Kind2Labels.line).getAsLong();
     column = jsonObject.get(Kind2Labels.column).getAsLong();
   }
@@ -96,7 +96,7 @@ public class Kind2Element
 
   public String getName()
   {
-    return name;
+    return Kind2Result.getOpeningSymbols() +  name + Kind2Result.getClosingSymbols();
   }
 
   public String getQualifiedName()

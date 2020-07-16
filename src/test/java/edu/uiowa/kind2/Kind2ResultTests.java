@@ -6,6 +6,7 @@
 
 package edu.uiowa.kind2;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -20,6 +21,14 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class Kind2ResultTests
 {
+  @BeforeEach
+  void reset()
+  {
+    Kind2Result.setOpeningSymbols("");
+    Kind2Result.setClosingSymbols("");
+  }
+
+
   @Test
   void suggestion1()
   {

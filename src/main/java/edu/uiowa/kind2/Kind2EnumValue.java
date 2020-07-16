@@ -22,7 +22,7 @@ public class Kind2EnumValue extends Kind2Value
 
   public String getName()
   {
-    return name;
+    return Kind2Result.getOpeningSymbols() + name + Kind2Result.getClosingSymbols();
   }
 
   @Override

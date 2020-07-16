@@ -133,7 +133,7 @@ public class Kind2Analysis
    */
   public String getNodeName()
   {
-    return nodeName;
+    return Kind2Result.getOpeningSymbols() + nodeName + Kind2Result.getClosingSymbols();
   }
 
   /**

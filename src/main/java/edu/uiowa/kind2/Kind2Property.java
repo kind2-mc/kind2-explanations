@@ -84,7 +84,7 @@ public class Kind2Property
     json = new GsonBuilder().setPrettyPrinting().create().toJson(jsonElement);
     jsonName = jsonObject.get(Kind2Labels.name).getAsString();
     name = jsonName.replaceAll("\\[.*?\\]", "").replaceFirst(".*?\\.", "");
-    qualifiedName = analysis.getNodeName() + "." + name;
+    qualifiedName = analysis.getNodeName() + "." + getName();
     scope = jsonObject.get(Kind2Labels.scope) == null ? "" :
         jsonObject.get(Kind2Labels.scope).getAsString();
     line = jsonObject.get(Kind2Labels.line).getAsString();
@@ -145,7 +145,7 @@ public class Kind2Property
 
   public String getName()
   {
-    return name;
+    return Kind2Result.getOpeningSymbols() + name + Kind2Result.getClosingSymbols();
   }
 
   public Kind2Result getKind2Result()
